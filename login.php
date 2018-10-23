@@ -17,14 +17,8 @@
 
 <center>
 <h1>User Login Form</h1>
-<br><br><br>
-<select name = "member" align = "center">
-  <option value="staff">staff</option> 
-  <option value="student">student</option>
-  <option value="professor">professor</option>
-  <option value="guest">guest</option>
-</select>
 </center>
+
 <table align = "center">
 <!--<tr>
     <th colspan = "2"><h2 align  = "center"> Login</h2></th>
