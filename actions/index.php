@@ -61,12 +61,19 @@ $(document).ready(function(){
     }  */
    // fetch_data(); 
     $(document).on('click', '#btn_add', function(){  
-        var name = $('#name').text();  
+        var name = $('#name').text(); 
+		var type = $('#type').text(); 
         var cost = $('#cost').text(); 
 		var quantity = $('#quantity').text(); 
+		var comment = $('#comment').text(); 
         if(name == '')  
         {  
             alert("Enter name");  
+            return false;  
+        }  
+		if(type == '')  
+        {  
+            alert("Enter type");  
             return false;  
         }  
         if(cost == '')  
@@ -79,10 +86,15 @@ $(document).ready(function(){
             alert("Enter quantity");  
             return false;  
         }
+		if(comment == '')  
+        {  
+            alert("Enter comment");  
+            return false;  
+        }
         $.ajax({  
             url:"insert.php",  
             method:"POST",  
-            data:{name:name, cost:cost,quantity:quantity},  
+            data:{name:name,type:type,cost:cost,quantity:quantity},  
             dataType:"text",  
             success:function(data)  
             {  
@@ -93,7 +105,7 @@ $(document).ready(function(){
     });  
     
 	
-	$(document).on('click', '.btn_issue', function(){  
+	/*$(document).on('click', '.btn_issue', function(){  
         
         $.ajax({  
             url:"issue.php",  
@@ -112,7 +124,7 @@ $(document).ready(function(){
             }  
         })  
     });  
-	
+	*/
 	
 	function edit_data(id, text, column_name)  
     {  
@@ -131,19 +143,29 @@ $(document).ready(function(){
         var id = $(this).data("id1");  
         var name = $(this).text();  
         edit_data(id, name, "name");  
-    });  
-    $(document).on('blur', '.cost', function(){  
+    }); 
+	$(document).on('blur', '.type', function(){  
         var id = $(this).data("id2");  
+        var type = $(this).text();  
+        edit_data(id, type, "type");  
+    }); 
+    $(document).on('blur', '.cost', function(){  
+        var id = $(this).data("id3");  
         var cost = $(this).text();  
         edit_data(id,cost, "cost");  
     }); 
 	$(document).on('blur', '.quantity', function(){  
-        var id = $(this).data("id3");  
+        var id = $(this).data("id4");  
         var quantity = $(this).text();  
         edit_data(id,quantity, "quantity");  
     }); 
+	$(document).on('blur', '.comment', function(){  
+        var id = $(this).data("id5");  
+        var comment = $(this).text();  
+        edit_data(id,comment, "comment");  
+    });
     $(document).on('click', '.btn_delete', function(){  
-        var id=$(this).data("id4");  
+        var id=$(this).data("id6");  
         if(confirm("Are you sure you want to delete this?"))  
         {  
             $.ajax({  
