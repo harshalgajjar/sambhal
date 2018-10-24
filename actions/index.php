@@ -94,7 +94,7 @@ $(document).ready(function(){
         $.ajax({  
             url:"insert.php",  
             method:"POST",  
-            data:{name:name,type:type,cost:cost,quantity:quantity},  
+            data:{name:name,type:type,cost:cost,quantity:quantity,comment:comment},  
             dataType:"text",  
             success:function(data)  
             {  
