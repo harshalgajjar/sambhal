@@ -56,6 +56,7 @@ EOF;
                      <td><button type="button" name="delete_btn" data-id6="'.$row["id"].'" class="btn btn-xs btn-danger btn_delete">x</button></td>  
 					 <td><button type="button" name="issue_btn" data-id7="'.$row["id"].'" class="btn_issue">issue</button></td>  
 
+
                 </tr>  
            ';  
       }  
