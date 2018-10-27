@@ -1,4 +1,5 @@
 Hello
 this is a test file
 DB_IS project
+BYE
 DB IS project
