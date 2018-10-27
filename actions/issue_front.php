@@ -1,7 +1,7 @@
 <?php
 // supporting AJAX from issue_front.php
 
- include_once("connect.php");
+ include_once("../connections/connect.php");
  $output = '';
 
  if(isset($_POST["b"]))

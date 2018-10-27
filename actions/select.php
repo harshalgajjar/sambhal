@@ -1,7 +1,7 @@
 <?php
 //supporting AJAX from index.php
 
- include_once("connect.php");
+ include_once("../connections/connect.php");
  $output = '';
  if(isset($_POST["b"]))
 
@@ -38,23 +38,23 @@ EOF;
 		     <th width="10%">Issue Option</th>
                 </tr>';
 =======
-} 
- $result = pg_query($db, $sql);  
- $output .= '  
-      <div class="table-responsive">  
-           <table class="table table-bordered">  
-                <tr>  
-                     <th width="10%">Id</th>  
-                     <th width="25%">Name</th>  
+}
+ $result = pg_query($db, $sql);
+ $output .= '
+      <div class="table-responsive">
+           <table class="table table-bordered">
+                <tr>
+                     <th width="10%">Id</th>
+                     <th width="25%">Name</th>
 					 <th width="25%">Type</th>
                      <th width="15%">Cost</th>
-					 <th width="15%">Quantity</th> 
-					 <th width="25%">Comment</th> 
-                     <th width="10%">Delete</th> 
-					 <th width="10%">Add Qty</th> 
-					 <th width="10%">Delete Qty</th> 
-					 <th width="10%">Issue Option</th> 
-                </tr>';  
+					 <th width="15%">Quantity</th>
+					 <th width="25%">Comment</th>
+                     <th width="10%">Delete</th>
+					 <th width="10%">Add Qty</th>
+					 <th width="10%">Delete Qty</th>
+					 <th width="10%">Issue Option</th>
+                </tr>';
 >>>>>>> 62506300fca16e623db04d8132ff0a9ea4a94f21
  $rows = pg_num_rows($result);
  if($rows > 0)
@@ -114,46 +114,46 @@ EOF;
  echo $output;
  ?>
 =======
-					 <td class="type" data-id2="'.$row["id"].'" contenteditable>'.$row["type"].'</td> 
-                     <td class="cost" data-id3="'.$row["id"].'" contenteditable>'.$row["cost"].'</td> 
+					 <td class="type" data-id2="'.$row["id"].'" contenteditable>'.$row["type"].'</td>
+                     <td class="cost" data-id3="'.$row["id"].'" contenteditable>'.$row["cost"].'</td>
 					 <td class="quantity" data-id4="'.$row["id"].'" contenteditable>'.$row["quantity"].'</td>
-					 <td class="comment" data-id5="'.$row["id"].'" contenteditable>'.$row["comment"].'</td> 
-                     <td><button type="button" name="delete_btn" data-id6="'.$row["id"].'" class="btn  btn_delete">x</button></td> 
-					 <td><button type="button" name="add_btn" data-id7="'.$row["id"].'" class="btn btn_add">+</button></td> 
-					 <td><button type="button" name="sub_btn" data-id8="'.$row["id"].'" class="btn btn_sub">-</button></td> 
-					 <td><button type="button" name="issue_btn" data-id9="'.$row["id"].'" class="btn_issue">issue</button></td>  
+					 <td class="comment" data-id5="'.$row["id"].'" contenteditable>'.$row["comment"].'</td>
+                     <td><button type="button" name="delete_btn" data-id6="'.$row["id"].'" class="btn  btn_delete">x</button></td>
+					 <td><button type="button" name="add_btn" data-id7="'.$row["id"].'" class="btn btn_add">+</button></td>
+					 <td><button type="button" name="sub_btn" data-id8="'.$row["id"].'" class="btn btn_sub">-</button></td>
+					 <td><button type="button" name="issue_btn" data-id9="'.$row["id"].'" class="btn_issue">issue</button></td>
 
-                </tr>  
-           ';  
-      }  
-      $output .= '  
-           <tr>  
-                <td></td>  
-                <td id="name" contenteditable></td>  
-				<td id="type" contenteditable></td>  
-                <td id="cost" contenteditable></td> 
-				<td id="quantity" contenteditable></td> 
-				<td id="comment" contenteditable></td> 
-                <td><button type="button" name="btn_add" id="btn_add" class="btn">+</button></td>  
-	
-           </tr>  
-      ';  
- }  
- else  
- {  
+                </tr>
+           ';
+      }
       $output .= '
-				<tr>  
-					<td></td>  
-					<td id="name" contenteditable></td> 
-					<td id="type" contenteditable></td>  
-					<td id="cost" contenteditable></td>  
-					<td id="quantity" contenteditable></td> 
-					<td id="comment" contenteditable></td> 
-					<td><button type="button" name="btn_add" id="btn_add" class="btn btn-xs btn-success">+</button></td>  
-			   </tr>';  
- }  
- $output .= '</table>  
-      </div>';  
- echo $output;  
+           <tr>
+                <td></td>
+                <td id="name" contenteditable></td>
+				<td id="type" contenteditable></td>
+                <td id="cost" contenteditable></td>
+				<td id="quantity" contenteditable></td>
+				<td id="comment" contenteditable></td>
+                <td><button type="button" name="btn_add" id="btn_add" class="btn">+</button></td>
+
+           </tr>
+      ';
+ }
+ else
+ {
+      $output .= '
+				<tr>
+					<td></td>
+					<td id="name" contenteditable></td>
+					<td id="type" contenteditable></td>
+					<td id="cost" contenteditable></td>
+					<td id="quantity" contenteditable></td>
+					<td id="comment" contenteditable></td>
+					<td><button type="button" name="btn_add" id="btn_add" class="btn btn-xs btn-success">+</button></td>
+			   </tr>';
+ }
+ $output .= '</table>
+      </div>';
+ echo $output;
  ?>
 >>>>>>> 62506300fca16e623db04d8132ff0a9ea4a94f21
