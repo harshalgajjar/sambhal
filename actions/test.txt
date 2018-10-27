@@ -1,5 +1,9 @@
 Hello
 this is a test file
 DB_IS project
+<<<<<<< HEAD
 BYE5853o]pililj5671234567890//pranay
+=======
+BYE5853o]pililj5671234567890//harshal
+>>>>>>> 71845edbbae4d71de88c0432324a47a3dc0eef6b
 DB IS project
