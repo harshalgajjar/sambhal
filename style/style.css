@@ -1,0 +1,23 @@
+body{
+  padding-top: 50px;
+}
+
+.form-label{
+  font-size:0.9em;
+  text-transform: uppercase;
+  display: block;
+}
+
+.result-table tbody tr:nth-child(odd){
+  background: #eee;
+}
+
+.result-table{
+}
+
+.result-table td, th{
+  border: 1px solid #ddd;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}

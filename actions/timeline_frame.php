@@ -20,11 +20,8 @@ session_start();
             <script src="../resources/js/vis.js"></script>
             <link href="../resources/css/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
 
-            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
         <link rel="stylesheet" href="../style/style.css" />
         <link rel="stylesheet" href="../style/style_issue.css" />
-
     </head>
     <body>
 
@@ -59,22 +56,17 @@ session_start();
 
               <br /><br />
               <!-- type cost comment -->
-
-              <span class="form-label">Type</span><span id="newtype" class="material_info"><?php if(isset($_GET['type'])) echo $_GET['type']; else echo "-"; ?></span>
-              <span class="form-label">Cost</span><span id="newcost" class="material_info"><?php if(isset($_GET['cost'])) echo $_GET['cost']; else echo "-"; ?></span>
-              <span class="form-label">Available Quantity</span><span id="newavailable" class="material_info"><?php if(isset($_GET['available'])) echo $_GET['available']; else echo "-"; ?></span>
-
               <?php
-                // echo "<span class=\"form-label\">Type</span><input id = \"newtype\" type=\"text\" name=\"type\" value='";
-                // if(isset($_GET['type'])) echo $_GET['type'];
-                // echo "' class=\"new-issue-input\" readonly> </input>";
-                // echo "<span class=\"form-label\">Cost</span><input id = \"newcost\" type=\"text\" name=\"cost\" value='";
-                // if(isset($_GET['cost'])) echo $_GET['cost'];
-                // echo "' class=\"new-issue-input\" readonly> </input>";
-                // echo "<span class=\"form-label\">Available Quantity</span><input id = \"newavailable\" type=\"text\" name=\"available\" value='";
-                //
-                // if(isset($_GET['available'])) echo $_GET['available'];
-                // echo "' class=\"new-issue-input\" readonly> </input>";
+                echo "<span class=\"form-label\">Type</span><input id = \"newtype\" type=\"text\" name=\"type\" value='";
+                if(isset($_GET['type'])) echo $_GET['type'];
+                echo "' class=\"new-issue-input\" readonly> </input>";
+                echo "<span class=\"form-label\">Cost</span><input id = \"newcost\" type=\"text\" name=\"cost\" value='";
+                if(isset($_GET['cost'])) echo $_GET['cost'];
+                echo "' class=\"new-issue-input\" readonly> </input>";
+                echo "<span class=\"form-label\">Available Quantity</span><input id = \"newavailable\" type=\"text\" name=\"available\" value='";
+
+                if(isset($_GET['available'])) echo $_GET['available'];
+                echo "' class=\"new-issue-input\" readonly> </input>";
               ?>
               <span class="form-label">Quantity</span><input type="number" name="quantity" value="1" class="new-issue-input"/>
               <span class="form-label">Roll Number</span><input type="number" name="roll_no" class="new-issue-input"/>
@@ -88,8 +80,8 @@ session_start();
                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
               </div>
 
-              <br />
-              <input class="submit-button" type="submit" name="issue" value="Issue" />
+              <br /><br />
+              <input type="submit" name="issue" value="Issue" />
 
             </form>
 
@@ -98,170 +90,11 @@ session_start();
             </div>
           </div>
           <div class="col-sm-9">
-            <h2>Overview</h2>
-
-            <div class="row">
-              <div class="col-sm-12">
-                <div id="component-wise"></div>
-
-              <script type="text/javascript">
-              google.charts.load('current', {'packages':['corechart']});
-              google.charts.setOnLoadCallback(drawChart);
-              function drawChart() {
-                var data = google.visualization.arrayToDataTable([
-                <?php
-                $sql_2="select * from material order by type, name;"; //preparing SQL command to get all issue types // type = 'component'
-                $request_2=pg_query($db,$sql_2);
-                $ntypes=pg_num_rows($request_2);
-                echo "['Name','Issued','Left'],";
-
-                $sql_4="select * from material order by type, name;"; // type = 'component'
-                $request_4=pg_query($db,$sql_4);
-                $ntypes_4=pg_num_rows($request_4);
-
-                while($row_4 = pg_fetch_array($request_4)){
-
-                  echo "['" . $row_4['name'] . "',";
-
-                    $sql_5="select sum(quantity) from issual where material_id=" . $row_4['id'] . " and return_flag='f';";
-                    //echo $sql_5;
-                    $request_5=pg_query($db,$sql_5);
-                    $ntypes_5=pg_fetch_array($request_5);
-
-                    if(is_null($ntypes_5['sum'])){
-                      echo "0,";
-                    }else
-                    echo $ntypes_5['sum'] . ",";
-
-                    $sql_6="select quantity from material where id=" . $row_4['id'] . ";";
-                    //echo $sql_6;
-                    $request_6=pg_query($db,$sql_6);
-                    $ntypes_6=pg_fetch_array($request_6);
-                    echo $ntypes_6['quantity']-$ntypes_5['sum'];
-
-                  echo "]";
-                  if($ntypes_4>1) echo ",";
-                  $ntypes_4--;
-
-                }
-
-                ?>
-
-                ]);
-
-                var options = {
-                  legend: { position: 'top', maxLines: 10 },
-                  bar: { groupWidth: '75%' },
-                  isStacked: 'percent',
-                  hAxis: {
-                    minValue: 0,
-                    ticks: [0, .3, .6, .9, 1]
-                  },
-                  colors: ['rgb(200,75,75)','rgb(75,200,75)']
-                };
-
-                var chart = new google.visualization.BarChart(document.getElementById('component-wise'));
-
-                chart.draw(data, options);
-              }
-              </script>
-
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-sm-6">
-              <div id="components"></div>
-
-              <script type="text/javascript">
-              google.charts.load('current', {'packages':['corechart']});
-              google.charts.setOnLoadCallback(drawChart);
-              function drawChart() {
-                var data = google.visualization.arrayToDataTable([
-                <?php
-                $sql_2="select * from material where type = 'component' order by name;"; //preparing SQL command to get all issue types
-                $request_2=pg_query($db,$sql_2);
-                $ntypes=pg_num_rows($request_2);
-                echo "['Name','Quantity'],";
-
-                $sql_4="select * from material where type = 'component' order by name;";
-                $request_4=pg_query($db,$sql_4);
-                $ntypes_4=pg_num_rows($request_4);
-
-                while($row_4 = pg_fetch_array($request_4)){
-
-                  echo "['" . $row_4['name'] . "'," . $row_4['quantity'];
-                  echo "]";
-                  if($ntypes_4>1) echo ",";
-                  $ntypes_4--;
-
-                }
-
-                ?>
-
-                ]);
-
-                var options = {
-                  title: 'Components',
-                  colors: ['rgb(100,100,200)','rgb(150,150,200)','rgb(175,175,200)']
-                };
-
-                var chart = new google.visualization.PieChart(document.getElementById('components'));
-
-                chart.draw(data, options);
-              }
-               </script>
-
-            </div>
-            <div class="col-sm-6">
-              <div id="equipments"></div>
-
-              <script type="text/javascript">
-              google.charts.load('current', {'packages':['corechart']});
-              google.charts.setOnLoadCallback(drawChart);
-              function drawChart() {
-                var data = google.visualization.arrayToDataTable([
-                <?php
-                $sql_2="select * from material where type = 'equipment' order by name;"; //preparing SQL command to get all issue types
-                $request_2=pg_query($db,$sql_2);
-                $ntypes=pg_num_rows($request_2);
-                echo "['Name','Quantity'],";
-
-                $sql_4="select * from material where type = 'equipment' order by name;";
-                $request_4=pg_query($db,$sql_4);
-                $ntypes_4=pg_num_rows($request_4);
-
-                while($row_4 = pg_fetch_array($request_4)){
-
-                  echo "['" . $row_4['name'] . "'," . $row_4['quantity'];
-                  echo "]";
-                  if($ntypes_4>1) echo ",";
-                  $ntypes_4--;
-
-                }
-
-                ?>
-
-                ]);
-
-                var options = {
-                  title: 'Equipments',
-                  colors: ['rgb(100,100,200)','rgb(150,150,200)','rgb(175,175,200)']
-                };
-
-                var chart = new google.visualization.PieChart(document.getElementById('equipments'));
-
-                chart.draw(data, options);
-              }
-               </script>
-
-            </div>
-
-          </div><br />
 
             <div id="visualization">
-            </div><br />
 
-            <h3>Details</h3>
+            </div>
+
             <div class="table-responsive">
       					<input type="text" name="search_text" id="search_text" placeholder="Enter Roll Number" class="form-control" />
       					<br>
@@ -288,7 +121,7 @@ function new_issual(){
   var expected_return =  document.forms['new-issual-form'].elements['expected_return'].value;//expected_return
   var material_id =  document.forms['new-issual-form'].elements['component'].value;//material_id
 
-  if(parseInt(quantity)>parseInt(document.getElementById('newavailable').innerHTML)){
+  if(parseInt(quantity)>parseInt(document.getElementById('newavailable').value)){
     window.alert("quantity>available");
     return false;
   }
@@ -301,8 +134,6 @@ function new_issual(){
     {
       if(data == 'success')
       {
-
-        location.reload();
         var search = $("#search_text").val();
         if(search != '')
         {
@@ -312,7 +143,6 @@ function new_issual(){
         {
           load_data();
         }
-
         material_info();
 
       }else{
@@ -326,34 +156,19 @@ function new_issual(){
   return false;
 }
 
-var returning; //for removing the returning component from timeline;
-function removeTimelineItem(id){
-  items.remove(id);
-  console.log(items);
-  timeline.setItems(items);
-  returning=-1;
-}
-
 function return_material(id){
   var return_id = "issual-"+id;
-  returning = id;
 
   $.ajax({
     url:"return_component.php",
     method:"post",
-    data:{'id':id},
+    data:{id:id},
     success:function(data)
     {
       if(data == 'success')
       {
-        location.reload();
-        removeTimelineItem(returning);
-        // removeTimelineItem(id);
-
         var id = "#"+return_id;
-
-        // $(id).remove();
-
+        $(id).remove();
         var search = $("#search_text").val();
         if(search != '')
         {
@@ -378,9 +193,6 @@ function material_info(){
   var material_id = document.getElementById('material-selector').value;
 
   if(material_id==-1){
-    $('#newtype').html("-");
-    $('#newcost').html("-");
-    $('#newavailable').html("-");
     return;
   }
 
@@ -394,9 +206,9 @@ function material_info(){
       var obj = JSON.parse(data);
       // console.log(obj.type);
       // console.log(obj.cost);
-      $('#newtype').html(obj.type);
-      $('#newcost').html(obj.cost);
-      $('#newavailable').html(obj.available);
+      $('#newtype').val(obj.type);
+      $('#newcost').val(obj.cost);
+      $('#newavailable').val(obj.available);
     }
   });
 }
@@ -412,9 +224,10 @@ d.setDate(d.getDate() - 2);
 var options;
 var timeline;
 // /for VIS timeline
-load_timeline();
 
-function load_timeline(){
+function load_data(search)
+{
+
   items = new vis.DataSet([
     <?php
     include_once("../connections/connect.php");
@@ -460,7 +273,7 @@ function load_timeline(){
     include_once("../connections/connect.php");
 
     $i=1;
-    $sql = "select distinct material.id as material_id, material.name as name from issual, material where issual.material_id = material.id and issual.return_flag='f';";// . " and status='Approval Pending'";
+    $sql = "select distinct material.id as material_id, material.name as name from issual, material where issual.material_id = material.id;";// . " and status='Approval Pending'";
     $request=pg_query($db, $sql);
     while($row = pg_fetch_array($request)){
       echo "{id: " . $row['material_id'] . ", content: '" . $row['name'] . "'}";
@@ -494,10 +307,7 @@ function load_timeline(){
   };
 
   timeline = new vis.Timeline(container, items, groups, options);
-}
 
-function load_data(search)
-{
 
   $.ajax({
     url:"issue_front.php",

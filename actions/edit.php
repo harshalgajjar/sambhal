@@ -1,7 +1,7 @@
 <?php
 	// Supporting AJAX for live editing of information from index.php
 
-	include_once("connect.php");
+	include_once("../connections/connect.php");
 	$id = $_POST["id"];
 	$text = $_POST["text"];
 	$column_name = $_POST["column_name"];

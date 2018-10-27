@@ -1,229 +1,124 @@
+<?php session_start(); ?>
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Welcome</title>
+    <meta type="robots" content="noindex">
+</head>
+<body>
+
 <?php
-//AJAX Search for component/equipment
-?>
 
-<html>
-    <head>
-        <title>Webslesson Demo - Live Table Add Edit Delete using Ajax Jquery in PHP Mysql</title>
-       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            <br />
-            <br />
-			<br />
-			<div class="table-responsive">
-					<input type="text" name="search_text" id="search_text" placeholder="Search by Component" class="form-control" />
-					<br><br><br>
-				<span id="result"></span>
-				<div id="live_data"></div>
-			</div>
-		</div>
-    </body>
-</html>
+//error_reporting(0);
 
-<script>
+    $error_login=$error_signup="";
+    if(isset($_POST['login_submit'])){ //checking if 'login' button was clicked
+        $username=$_POST['username']; //storing entered data
+        $password=$_POST['password']; //storing entered data
 
-$(document).ready(
-function()
-{
+            include_once "./connections/connect.php"; //connecting to mysql database
 
-	load_data();
-	function load_data(a)
-	{
-		$.ajax({
-			url:"select.php",
-			method:"post",
-			data:{b:a},
-			success:function(data)
-			{
-				$('#result').html("");
-				$('#live_data').html(data);
-			}
-		});
-	}
+            // this is for students
+            $sql="SELECT * FROM student WHERE roll_no='$username' AND password='$password'"; //sql query
+            $request=pg_query($db,$sql); //searching for a user with given credentials in the table 'users'
 
+            if(pg_num_rows($request) > 0){ //if user found
 
+                $row = pg_fetch_array($request);
+                //correct credentials
+                //student: login, level, roll_no, dept, id, name
+                $_SESSION['login'] = "success"; //using session variables to remember that user has logged in
+                $_SESSION['level'] = "student";
+                $_SESSION['roll_no'] = $username; //storing username for further use (if any)
+                $_SESSION['dept'] = $row['dept'];
+                $_SESSION['id'] = $row['id'];
+                $_SESSION['name'] = $row['name'];
 
-
-	$('#search_text').keyup(function(){
-		var search = $(this).val();
-		if(search != '')
-		{
-			load_data(search);
-		}
-		else
-		{
-			load_data();
-		}
-	});
-
-
-
-  $(document).on('click', '#btn_add', function()
-  {
-        var name = $('#name').text();
-		    var type = $('#type').text();
-        var cost = $('#cost').text();
-		    var quantity = $('#quantity').text();
-		    var comment = $('#comment').text();
-        if(name == '')
-        {
-            alert("Enter name");
-            return false;
-        }
-		    if(type == '')
-        {
-            alert("Enter type");
-            return false;
-        }
-        if(cost == '')
-        {
-            alert("Enter cost");
-            return false;
-        }
-		    if(quantity == '')
-        {
-            alert("Enter quantity");
-            return false;
-        }
-		    if(comment == '')
-        {
-            alert("Enter comment");
-            return false;
-        }
-        $.ajax({
-            url:"insert.php",
-            method:"POST",
-            data:{name:name,type:type,cost:cost,quantity:quantity,comment:comment},
-            dataType:"text",
-            success:function(data)
-            {
-                alert(data);
-                var search = $('#search_text').val();
-                if(search != '')
-                {
-                   load_data(search);
-                }
-                else
-                {
-                  load_data();
-                }
+                header('Location:home.php'); //redirecting user to admin page
+                pg_close($handle); //closing MySQL connection
+            } else{
+                //wrong credentials
+                $error_login="Wrong username and/or password"; //storing error in error variable to output on screen
             }
-        })
-    });
 
+            // this is for staff
+            $sql="SELECT * FROM staff WHERE email='$username' AND password='$password'"; //sql query
+            $request=pg_query($db,$sql); //searching for a user with given credentials in the table 'users'
 
+            if(pg_num_rows($request) > 0){ //if user found
 
+                $row = pg_fetch_array($request);
+                //correct credentials
+                //student: login, level, roll_no, dept, id, name
+                $_SESSION['login'] = "success"; //using session variables to remember that user has logged in
+                $_SESSION['level'] = "staff";
+                $_SESSION['email'] = $username; //storing username for further use (if any)
+                $_SESSION['designation'] = $row['designation'];
+                $_SESSION['id'] = $row['id'];
+                $_SESSION['name'] = $row['name'];
 
-
-
-
-	function edit_data(id, text, column_name)
-    {
-        $.ajax({
-            url:"edit.php",
-            method:"POST",
-            data:{id:id, text:text, column_name:column_name},
-            dataType:"text",
-            success:function(data){
-                //alert(data);
-				$('#result').html("<div class='alert alert-success'>"+data+"</div>");
+                header('Location:home.php'); //redirecting user to admin page
+                pg_close($handle); //closing MySQL connection
+            } else{
+                //wrong credentials
+                $error_login="Wrong username and/or password"; //storing error in error variable to output on screen
             }
-        });
+
+    // } elseif(isset($_POST['signup_submit'])){
+    //     $username=$_POST['username'];
+    //     $password=$_POST['password'];
+    //
+    //         include_once "./connections/connect.php";
+    //
+    //         if(!empty($username) && !empty($password)){
+    //             $sql="SELECT * FROM users WHERE username='$username'";
+    //             $request=pg_query($handle,$sql);
+    //
+    //             if(pg_num_rows($request) > 0){
+    //                 $error_signup="Username already taken";
+    //             } else{
+    //                 $sql="INSERT INTO users (username,password) VALUES ('$username','$password')";
+    //                 if(pg_query($handle,$sql)){
+    //                     $error_signup="User created";
+    //                 } else{
+    //                     $error_signup="User creation failed";
+    //                 }
+    //             }
+    //         } else{
+    //             $error_signup="Please enter valid credentials";
+    //         }
+
     }
-    $(document).on('blur', '.name', function(){
-        var id = $(this).data("id1");
-        var name = $(this).text();
-        edit_data(id, name, "name");
-    });
-	$(document).on('blur', '.type', function(){
-        var id = $(this).data("id2");
-        var type = $(this).text();
-        edit_data(id, type, "type");
-    });
-    $(document).on('blur', '.cost', function(){
-        var id = $(this).data("id3");
-        var cost = $(this).text();
-        edit_data(id,cost, "cost");
-    });
-	$(document).on('blur', '.quantity', function(){
-        var id = $(this).data("id4");
-        var quantity = $(this).text();
-        edit_data(id,quantity, "quantity");
-    });
-	$(document).on('blur', '.comment', function(){
-        var id = $(this).data("id5");
-        var comment = $(this).text();
-        edit_data(id,comment, "comment");
-    });
 
+?>
+    <div id="login-form">
+        Log in
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
 
-    $(document).on('click', '.btn_delete', function(){
-        var id=$(this).data("id6");
-        if(confirm("Are you sure you want to delete this?"))
-        {
-            $.ajax({
-                url:"delete.php",
-                method:"POST",
-                data:{id:id},
-                dataType:"text",
-                success:function(data)
-                {
-                    alert(data);
-                    var search = $('#search_text').val();
-					          if(search != '')
-					          {
-						           load_data(search);
-					          }
-                    else
-          					{
-          						load_data();
-          					}
-                }
-            });
-        }
-    });
+            Username:<br /><input type="text" name="username"/><br />
+            Password:<br /><input type="password" name="password"/><br />
+            <input type="submit" name="login_submit" value="Login"/><br />
+            <?php echo $error_login; // showing error (if any)?>
 
+        </form>
+    </div>
 
-    $(document).on('click', '.btn_issue', function(){
-        var id=$(this).data("id7");
-        if(confirm("Are you sure you want to issue this?"))
-        {
-            $.ajax({
-                url:"issue.php",
-                method:"POST",
-                data:{id:id},
-                dataType:"text",
-                success:function(data)
-                {
-                    alert(data);
-                    var search = $('#search_text').val();
-					          if(search != '')
-					          {
-						           load_data(search);
-					          }
-                    else
-          					{
-          						load_data();
-          					}
-                }
-            });
-        }
-    });
+    <hr />
+
+    <!-- <div id="signup-form">
+        Sign up
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+
+            Username:<br /><input type="text" name="username"/><br />
+            Password:<br /><input type="password" name="password"/><br />
+            <input type="submit" name="signup_submit" value="Signup"/><br />
+            <?php echo $error_signup; // showing error (if any)?>
+
+        </form>
+    </div> -->
 
 
 
-
-
-
-
-
-
-
-
-
-});
-</script>
+</body>
+</html>
