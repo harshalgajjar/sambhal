@@ -1,4 +1,3 @@
-<<<<<<< HEAD:index.php
 <?php
 //AJAX Search for component/equipment
 ?>
@@ -13,18 +12,6 @@
     <body>
         <div class="container">
             <br />
-=======
-<html>
-    <head>
-        <title>Webslesson Demo - Live Table Add Edit Delete using Ajax Jquery in PHP Mysql</title>
-       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            <br />
->>>>>>> 62506300fca16e623db04d8132ff0a9ea4a94f21:actions/index.php
             <br />
 			<br />
 			<div class="table-responsive">
