@@ -1,8 +1,5 @@
 Hello
 this is a test file
 DB_IS project
-<<<<<<< HEAD
 BYE
 DB IS project
-=======
->>>>>>> 524b105b37df6682e79750228dcc998afd3118e0
