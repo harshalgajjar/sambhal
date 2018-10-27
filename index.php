@@ -1,4 +1,3 @@
-<<<<<<< HEAD:index.php
 <?php
 //AJAX Search for component/equipment
 ?>
@@ -32,7 +31,7 @@ $(document).ready(function(){
 	function load_data(a)
 	{
 		$.ajax({
-			url:"select.php",
+			url:"./actions/select.php",
 			method:"post",
 			data:{b:a},
 			success:function(data)
@@ -98,7 +97,7 @@ $(document).ready(function(){
             return false;
         }
         $.ajax({
-            url:"insert.php",
+            url:"./actions/insert.php",
             method:"POST",
             data:{name:name,type:type,cost:cost,quantity:quantity,comment:comment},
             dataType:"text",
@@ -114,7 +113,7 @@ $(document).ready(function(){
 	$(document).on('click', '.btn_issue', function(){
         var id=$(this).data("id9");
         $.ajax({
-            url:"issue.php",
+            url:"./actions/issue.php",
             method:"POST",
             data:{id,id},
             dataType:"text",
@@ -141,7 +140,7 @@ $(document).ready(function(){
 	function edit_data(id, text, column_name)
     {
         $.ajax({
-            url:"edit.php",
+            url:"./actions/edit.php",
             method:"POST",
             data:{id:id, text:text, column_name:column_name},
             dataType:"text",
@@ -181,7 +180,7 @@ $(document).ready(function(){
         if(confirm("Are you sure you want to delete this?"))
         {
             $.ajax({
-                url:"delete.php",
+                url:"./actions/delete.php",
                 method:"POST",
                 data:{id:id},
                 dataType:"text",
@@ -211,7 +210,7 @@ $(document).ready(function(){
         if(confirm("Are you sure you want to increase quantity?"))
         {
             $.ajax({
-                url:"increment.php",
+                url:"./actions/increment.php",
                 method:"POST",
                 data:{id:id},
                 dataType:"text",
@@ -239,7 +238,7 @@ $(document).ready(function(){
         if(confirm("Are you sure you want to decrement quantity?"))
         {
             $.ajax({
-                url:"decrement.php",
+                url:"./actions/decrement.php",
                 method:"POST",
                 data:{id:id},
                 dataType:"text",

@@ -21,7 +21,6 @@ else
 	$sql =<<<EOF
       SELECT * FROM material ORDER BY id;
 EOF;
-<<<<<<< HEAD
 }
  $result = pg_query($db, $sql);
  $output .= '
@@ -37,25 +36,7 @@ EOF;
                      <th width="10%">Delete</th>
 		     <th width="10%">Issue Option</th>
                 </tr>';
-=======
-}
- $result = pg_query($db, $sql);
- $output .= '
-      <div class="table-responsive">
-           <table class="table table-bordered">
-                <tr>
-                     <th width="10%">Id</th>
-                     <th width="25%">Name</th>
-					 <th width="25%">Type</th>
-                     <th width="15%">Cost</th>
-					 <th width="15%">Quantity</th>
-					 <th width="25%">Comment</th>
-                     <th width="10%">Delete</th>
-					 <th width="10%">Add Qty</th>
-					 <th width="10%">Delete Qty</th>
-					 <th width="10%">Issue Option</th>
-                </tr>';
->>>>>>> 62506300fca16e623db04d8132ff0a9ea4a94f21
+
  $rows = pg_num_rows($result);
  if($rows > 0)
  {
