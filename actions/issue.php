@@ -32,11 +32,12 @@ session_start();
         <div class="row">
           <div class="col-sm-3">
             <div class="well">
-
+              <h3>Issue</h3>
             <form name="new-issual-form" method="POST" action="" onsubmit="return new_issual();">
 
+              <span class="form-label">Material</span>
               <select id="material-selector" onchange="material_info()" name="component">
-                <option value="-1">Select Material</option>
+                <option value="-1">Select</option>
               <?php
 
               $sql = "select * from material;";
@@ -56,7 +57,6 @@ session_start();
                 //select * from material where material_id='3'
               ?>
               </select>
-
               <br /><br />
               <!-- type cost comment -->
 
@@ -98,6 +98,7 @@ session_start();
             </div>
           </div>
           <div class="col-sm-9">
+            <div class="well">
             <h2>Overview</h2>
 
             <div class="row">
@@ -157,7 +158,8 @@ session_start();
                     minValue: 0,
                     ticks: [0, .3, .6, .9, 1]
                   },
-                  colors: ['rgb(200,75,75)','rgb(75,200,75)']
+                  colors: ['rgb(100,100,200)','rgb(175,175,200)'],
+                  backgroundColor: { fill:'transparent' }
                 };
 
                 var chart = new google.visualization.BarChart(document.getElementById('component-wise'));
@@ -202,7 +204,8 @@ session_start();
 
                 var options = {
                   title: 'Components',
-                  colors: ['rgb(100,100,200)','rgb(150,150,200)','rgb(175,175,200)']
+                  colors: ['rgb(100,100,200)','rgb(150,150,200)','rgb(175,175,200)'],
+                  backgroundColor: { fill:'transparent' }
                 };
 
                 var chart = new google.visualization.PieChart(document.getElementById('components'));
@@ -245,7 +248,8 @@ session_start();
 
                 var options = {
                   title: 'Equipments',
-                  colors: ['rgb(100,100,200)','rgb(150,150,200)','rgb(175,175,200)']
+                  colors: ['rgb(100,100,200)','rgb(150,150,200)','rgb(175,175,200)'],
+                  backgroundColor: { fill:'transparent' }
                 };
 
                 var chart = new google.visualization.PieChart(document.getElementById('equipments'));
@@ -261,6 +265,7 @@ session_start();
             <div id="visualization">
             </div><br />
 
+            </div>
             <h3>Details</h3>
             <div class="table-responsive">
       					<input type="text" name="search_text" id="search_text" placeholder="Enter Roll Number" class="form-control" />
@@ -268,6 +273,7 @@ session_start();
       				<div id="result"></div>
       				<div id="live_data"></div>
       			</div>
+
 
           </div>
         </div>
@@ -460,7 +466,7 @@ function load_timeline(){
     include_once("../connections/connect.php");
 
     $i=1;
-    $sql = "select distinct material.id as material_id, material.name as name from issual, material where issual.material_id = material.id and issual.return_flag='f';";// . " and status='Approval Pending'";
+    $sql = "select distinct material.id as material_id, material.name as name from issual, material where issual.material_id = material.id and issual.return_flag='f' order by material.name;";// . " and status='Approval Pending'";
     $request=pg_query($db, $sql);
     while($row = pg_fetch_array($request)){
       echo "{id: " . $row['material_id'] . ", content: '" . $row['name'] . "'}";
