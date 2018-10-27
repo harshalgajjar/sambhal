@@ -1,3 +1,7 @@
+<?php
+//AJAX Search for component/equipment
+?>
+
 <html>
     <head>
         <title>Webslesson Demo - Live Table Add Edit Delete using Ajax Jquery in PHP Mysql</title>

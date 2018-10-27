@@ -1,3 +1,6 @@
+<?php
+// Clicking issue button on the page index.php brings the user here
+ ?>
 <html>
     <head>
         <title>Webslesson Demo - Live Table Add Edit Delete using Ajax Jquery in PHP Mysql</title>

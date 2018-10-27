@@ -1,4 +1,6 @@
 <?php
+// supporting AJAX from issue_front.php
+
  include_once("connect.php");
  $output = '';
 
