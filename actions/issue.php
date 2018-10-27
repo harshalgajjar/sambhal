@@ -33,7 +33,7 @@ function()
 	function load_data(a)
 	{
 		$.ajax({
-			url:"issue_front.php",
+			url:"./actions/issue_front.php",
 			method:"post",
 			data:{b:a},
 			success:function(data)
