@@ -42,10 +42,24 @@ function edit_data(value, id, change){
       data:{id:id, text:value, column_name:change},
       dataType:"text",
       success:function(data){
-          //alert(data);
-	$('#result').html("<div class='alert alert-success'>"+data+"</div>");
+          // alert(data);
+
+          var search = $("#search_text").val();
+      		if(search != '')
+      		{
+      			load_data(search);
+
+      		}
+      		else
+      		{
+      			load_data();
+            // $('#result').html("<div class='alert alert-success'>"+data+"</div>");
+      		}
+          $('#result').html("<div class='alert alert-success'>"+data+"</div>");
+
       }
   });
+
 }
 
 	load_data();
@@ -77,7 +91,7 @@ function edit_data(value, id, change){
 			data:{query:search, selectedMaterials:selectedMaterials_json },
 			success:function(data)
 			{
-				$('#result').html("");
+        setTimeout(function(){ $('#result').html(""); }, 4000);
 				$('#live_data').html(data);
 			}
 		});
