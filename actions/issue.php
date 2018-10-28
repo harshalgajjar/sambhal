@@ -60,9 +60,9 @@ session_start();
               <br /><br />
               <!-- type cost comment -->
 
-              <span class="form-label">Type</span><span id="newtype" class="material_info"><?php if(isset($_GET['type'])) echo $_GET['type']; else echo "-"; ?></span>
-              <span class="form-label">Cost</span><span id="newcost" class="material_info"><?php if(isset($_GET['cost'])) echo $_GET['cost']; else echo "-"; ?></span>
-              <span class="form-label">Available Quantity</span><span id="newavailable" class="material_info"><?php if(isset($_GET['available'])) echo $_GET['available']; else echo "-"; ?></span>
+              <span class="form-label">Type</span><span id="newtype" class="material_info"></span>
+              <span class="form-label">Cost</span><span id="newcost" class="material_info"></span>
+              <span class="form-label">Available Quantity</span><span id="newavailable" class="material_info"></span>
 
               <?php
                 // echo "<span class=\"form-label\">Type</span><input id = \"newtype\" type=\"text\" name=\"type\" value='";
@@ -76,7 +76,7 @@ session_start();
                 // if(isset($_GET['available'])) echo $_GET['available'];
                 // echo "' class=\"new-issue-input\" readonly> </input>";
               ?>
-              <span class="form-label">Quantity</span><input type="number" name="quantity" value="1" class="new-issue-input"/>
+              <span class="form-label">Quantity</span><input type="number"  min="1" name="quantity" value="1" class="new-issue-input"/>
               <span class="form-label">Roll Number</span><input type="number" name="roll_no" class="new-issue-input"/>
               <!-- <span class="form-label">Expected Return</span><input type="date" id = "return_date" name="expected_return" class="new-issue-input"/> -->
 
@@ -268,7 +268,7 @@ session_start();
             </div>
             <h3>Details</h3>
             <div class="table-responsive">
-      					<input type="text" name="search_text" id="search_text" placeholder="Enter Roll Number" class="form-control" />
+      					<input type="text" name="search_text" id="search_text" placeholder="Search" class="form-control" />
       					<br>
       				<div id="result"></div>
       				<div id="live_data"></div>
@@ -296,6 +296,11 @@ function new_issual(){
 
   if(parseInt(quantity)>parseInt(document.getElementById('newavailable').innerHTML)){
     window.alert("quantity>available");
+    return false;
+  }
+
+  if(document.getElementById('return_date').value == null || document.getElementById('return_date').value == ""){
+    window.alert("select expected return date and time");
     return false;
   }
 
@@ -376,6 +381,23 @@ function return_material(id){
   });
 
 }
+
+function edit_issual_data(value, id, change){
+  console.log(id+ " " +change+" val="+value);
+
+  $.ajax({
+      url:"./edit_issual.php",
+      method:"POST",
+      data:{id:id, text:value, column_name:change},
+      dataType:"text",
+      success:function(data){
+          // alert(data);
+	$('#result').html("<div class='alert alert-success'>"+data+"</div>");
+      }
+  });
+}
+
+
 
 function material_info(){
 
@@ -557,6 +579,7 @@ $(document).ready(
 function()
 {
 
+  material_info();
 	load_data();
 
 	$('#search_text').keyup(function(){
