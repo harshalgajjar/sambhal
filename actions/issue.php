@@ -268,7 +268,7 @@ session_start();
             </div>
             <h3>Details</h3>
             <div class="table-responsive">
-      					<input type="text" name="search_text" id="search_text" placeholder="Enter Roll Number" class="form-control" />
+      					<input type="text" name="search_text" id="search_text" placeholder="Search" class="form-control" />
       					<br>
       				<div id="result"></div>
       				<div id="live_data"></div>
@@ -375,6 +375,21 @@ function return_material(id){
     }
   });
 
+}
+
+function edit_issual_data(value, id, change){
+  console.log(id+ " " +change+" val="+value);
+
+  $.ajax({
+      url:"./edit_issual.php",
+      method:"POST",
+      data:{id:id, text:value, column_name:change},
+      dataType:"text",
+      success:function(data){
+          // alert(data);
+	$('#result').html("<div class='alert alert-success'>"+data+"</div>");
+      }
+  });
 }
 
 function material_info(){
