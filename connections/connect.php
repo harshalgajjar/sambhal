@@ -1,7 +1,7 @@
 <?php
 // connects to the DB
 
-   $host        = "host = 172.16.135.138";
+   $host        = "host = 172.16.135.141";
    $port        = "port = 5432";
    $dbname      = "dbname = project";
    $credentials = "user = postgres password=harshal";

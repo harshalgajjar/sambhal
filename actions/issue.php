@@ -89,7 +89,7 @@ session_start();
               </div>
 
               <br />
-              <input class="submit-button" type="submit" name="issue" value="Issue" />
+              <input class="submit-button" type="submit" name="issue" value="Submit" />
 
             </form>
 
@@ -290,7 +290,7 @@ function new_issual(){
 
   var quantity =  document.forms['new-issual-form'].elements['quantity'].value; //quantity
   var roll_no =  document.forms['new-issual-form'].elements['roll_no'].value; //student_id
-  var staff_id = <?php echo $_SESSION["id"];?>;//staff_id
+  var staff_id = <?php echo $_SESSION["id"]; ?>;//staff_id
   var expected_return =  document.forms['new-issual-form'].elements['expected_return'].value;//expected_return
   var material_id =  document.forms['new-issual-form'].elements['component'].value;//material_id
 
