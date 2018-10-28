@@ -1,6 +1,9 @@
 <?php
 // supporting AJAX from issue_front.php
 
+session_start();
+if($_SESSION['level']!="staff") die();
+
  include_once("../connections/connect.php");
  $output = '';
 

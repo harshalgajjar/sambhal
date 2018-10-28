@@ -2,6 +2,9 @@
 
   include_once("../connections/connect.php");
 
+session_start();
+  if($_SESSION['level']!="staff") die();
+
   if(isset($_POST["id"])){
 
 

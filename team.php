@@ -3,10 +3,9 @@
 // This code is available under GNU General Public Licence v3
 
 session_start(); //starting session
-error_reporting(1);
 date_default_timezone_set('Asia/Kolkata'); //changing default time zone
 
-if (1){ //isset($_SESSION['login']) AND $_SESSION['login']=="success" AND $_SESSION['level']=='gsha'){ //checking for login status
+if($_SESSION['level']=="staff"){ //isset($_SESSION['login']) AND $_SESSION['login']=="success" AND $_SESSION['level']=='gsha'){ //checking for login status
 include_once "connections/connect.php"; //connecting to database
 $formcounter=0;
 ?>
@@ -31,7 +30,32 @@ $formcounter=0;
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript" scr="gchart.js"></script>
 </head>
-<body>
+<body style="padding-top:80px;">
+  <header>
+   <nav class="navbar navbar-default navbar-fixed-top">
+           <div class="container">
+                   <div class="navbar-header">
+                           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainbar">
+                                   <span class="icon-bar"></span>
+                                   <span class="icon-bar"></span>
+                                   <span class="icon-bar"></span>
+                           </button>
+                           <a class="navbar-brand logo" href="#">Sambhal</a>
+                   </div>
+
+                   <div class="collapse navbar-collapse" id="mainbar">
+                           <ul class="nav navbar-nav navbar-right">
+                             <?php if($_SESSION['level']=="staff"){?>
+                                    <li><a href="home.php">Home</a></li>
+                                    <li><a href="actions/issue.php">Issue Component</a></li>
+                                    <li><a href="team.php">Team</a></li>
+                            <?php } ?>
+                                   <li><a href="logout.php">Log out</a></li>
+                           </ul>
+                   </div>
+           </div>
+   </nav>
+   </header>
 
 	<!-- CONTENT INSIDE -->
 
@@ -52,7 +76,7 @@ $formcounter=0;
             "<span class='input-label'>Name</span><input name='name' type='text' value='" . $row['name'] . "'/><br />" .
             "<!--<span class='input-label'>Designation</span><input name='designation' type='text' value='" . $row['designation'] . "'/><br />-->" .
             "<span class='input-label'><a href='mailto:" . $row['email'] . "?subject=[EDL Lab] Message'>Email</a></span><input name='email' type='text' value='" . $row['email'] . "'/><br />" .
-            "<span class='input-label'><a href='tel:" . $row['phone'] . "'>Phone</a></span><input name='phone' type='text' value='" . $row['phone_no'] . "'/><br />";
+            "<span class='input-label'><a href='tel:" . $row['phone_no'] . "'>Phone</a></span><input name='phone' type='text' value='" . $row['phone_no'] . "'/><br />";
             echo "<input type='submit' onclick='this.form.submited=this.name;' name='update' value='>'/>";
             echo "<input type='submit' onclick='this.form.submited=this.name;' name='remove' value='x'/>";
             echo "</form>";
@@ -88,7 +112,7 @@ $formcounter=0;
             "<span class='input-label'>Name</span><input name='name' type='text' value='" . $row['name'] . "'/><br />" .
             "<span class='input-label'>Department</span><input name='department' type='text' value='" . $row['dept'] . "' readonly /><br />" .
             "<span class='input-label'><a href='mailto:" . $row['email'] . "?subject=[EDL Lab] Message'>Email</a></span><input name='email' type='text' value='" . $row['email'] . "'/><br />" .
-            "<span class='input-label'><a href='tel:" . $row['phone'] . "'>Phone</a></span><input name='phone' type='text' value='" . $row['phone_no'] . "'/><br />";
+            "<span class='input-label'><a href='tel:" . $row['phone_no'] . "'>Phone</a></span><input name='phone' type='text' value='" . $row['phone_no'] . "'/><br />";
             echo "<input type='submit' onclick='this.form.submited=this.name;' name='update' value='>'/>";
             echo "<input type='submit' onclick='this.form.submited=this.name;' name='remove' value='x'/>";
             echo "</form>";

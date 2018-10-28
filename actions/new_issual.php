@@ -1,9 +1,12 @@
 <?php
 // Supporting AJAX from index.php to add new component/equipment
 
+session_start();
+if($_SESSION['level']!="staff") die();
+
 include_once("../connections/connect.php");
 
-$sql = "select * from student where roll_no = '".$_POST["roll_no"]."';";
+$sql = "select * from student where roll_no = '" . $_POST["roll_no"] . "';";
 $result = pg_query($db, $sql);
 
 $row = pg_fetch_array($result);

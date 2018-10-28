@@ -2,7 +2,10 @@
 //supporting AJAX from index.php
 
   session_start();
- include_once("../connections/connect.php");
+  include_once("../connections/connect.php");
+
+  if($_SESSION['login']!="success") die();
+
  $output = '';
  if(isset($_POST["query"]))
 
@@ -80,15 +83,7 @@ else
 
           $linkdata = array(
               'request' => "issue",
-<<<<<<< HEAD
               'id' => $row["id"]
-=======
-              'id' => $row["id"],
-              // 'type' => $row["type"],
-              // 'name' => $row["name"],
-              // 'cost' => $row["cost"],
-              // 'available' => $row["available"]
->>>>>>> 959a58b1f34545b66e2597e684df61a2085c9863
           );
 
           $link = "./actions/" . $link . "?" . http_build_query($linkdata);
@@ -120,7 +115,7 @@ else
    ';
  };
 
- if($_SESSION['level']!="staff"){
+ if($_SESSION['level']!="staff" && $_SESSION['level']!="faculty"){
   $output .= '
        <tr>
             <td>Request Material</td>

@@ -5,14 +5,14 @@
 session_start(); //starting session to retrieve session variables
 date_default_timezone_set('Asia/Kolkata'); //setting default time zone
 
-if (1){ //isset($_SESSION['login']) AND $_SESSION['login']=="success" AND $_SESSION['level']=="gsha"){ //checking for login status
+if($_SESSION['level']=="staff"){ //isset($_SESSION['login']) AND $_SESSION['login']=="success" AND $_SESSION['level']=="gsha"){ //checking for login status
 
 	if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		include_once "../connections/connect.php";
 
 		if(isset($_POST['update'])){
-			$sql = "UPDATE faculty SET name='" . $_POST['name'] . "', email='" . $_POST['email'] . "', dept='" . $_POST['department'] . "', phone_no='" . $_POST['phone'] . "'";
+			$sql = "UPDATE faculty SET name='" . $_POST['name'] . "', email='" . $_POST['email'] . "', dept='" . $_POST['department'] . "', phone_no='" . $_POST['phone'] . "' WHERE id='" . $_POST['id'] . "'";
 			$request = pg_query($db, $sql);
 			header('Location:../team.php');
 		} else if(isset($_POST['remove'])){
@@ -20,18 +20,19 @@ if (1){ //isset($_SESSION['login']) AND $_SESSION['login']=="success" AND $_SESS
 			$request = pg_query($db, $sql);
 			header('Location:../team.php');
 		}else if(isset($_POST['add'])){
-			$sql = "SELECT * FROM faculty WHERE name='" . $_POST['name'] . "', email='" . $_POST['email'] . "', dept='" . $_POST['department'] . "', phone_no='" . $_POST['phone'] . "'";
+			$sql = "SELECT * FROM faculty WHERE name='" . $_POST['name'] . "' and email='" . $_POST['email'] . "' and dept='" . $_POST['department'] . "' and phone_no='" . $_POST['phone'] . "'";
+			echo $sql;
 			$request = pg_query($db, $sql);
 			if(pg_num_rows($request)>0){
 				$_SESSION['edit_faculty_message'] = "Faculty exists!";
 			}else{
 				$rset_flag = md5(rand(10,100));
 				// echo $rset_flag;
-				$sql = "INSERT INTO faculty (name, email, dept, phone_no, rset_flag, verified) VALUES ('" . $_POST['hostel'] . "','" . $_POST['name'] . "','" . $_POST['username'] . "','" . $_POST['email'] . "','" . $_POST['phone'] . "', 'faculty', '$rset_flag', 'false')" ;
+				$sql = "INSERT INTO faculty (name, email, dept, phone_no, reset_flag, verified) VALUES ('" . $_POST['name'] . "','" . $_POST['email'] . "','" . $_POST['department'] . "','" . $_POST['phone'] . "', '" . $rset_flag . "', 'false')" ;
 				$request = pg_query($db, $sql);
 				$_SESSION['edit_faculty_message'] = "Faculty added.";
 
-				$sql = "SELECT * FROM faculty WHERE name='" . $_POST['name'] . "', email='" . $_POST['email'] . "', dept='" . $_POST['department'] . "', phone_no='" . $_POST['phone'] . "'";
+				$sql = "SELECT * FROM faculty WHERE name='" . $_POST['name'] . "' and email='" . $_POST['email'] . "' and dept='" . $_POST['department'] . "' and phone_no='" . $_POST['phone'] . "'";
 				$request = pg_query($db, $sql);
 				$newfaculty = pg_fetch_array($request);
 
@@ -56,8 +57,8 @@ if (1){ //isset($_SESSION['login']) AND $_SESSION['login']=="success" AND $_SESS
 				// echo $link;
 
 				$mail->Subject = "[Sambhal] Welcome to IITDH Sambhal!";
-				$mail->Body = "Hello " . $newstaff['name'] . ",<br /> <a href='http://fromabctill.xyz/sambhal/'>Sambhal</a> is a CMS for labs.<br /><br />An account for you has been created by " . $_SESSION['name'] . ", following are the details:<br />username: '" . $newstaff['username'] . "'<br />Password: Click <a href='" . $link . "'>here</a> to set a password.<br /><br />Sambhal";
-				$mail->AltBody = "Hello " . $newstaff['name'] . ",<br /> <a href='http://fromabctill.xyz/sambhal/'>Sambhal</a> is a CMS for labs.<br /><br />An account for you has been created by " . $_SESSION['name'] . ", following are the details:<br />username: '" . $newstaff['username'] . "'<br />Password: Click <a href='" . $link . "'>here</a> to set a password.<br /><br />Sambhal";
+				$mail->Body = "Hello " . $newfaculty['name'] . ",<br /> <a href='http://fromabctill.xyz/sambhal/'>Sambhal</a> is a CMS for labs.<br /><br />An account for you has been created by " . $_SESSION['name'] . ", following are the details:<br />username: '" . $newfaculty['email'] . "'<br />Password: Click <a href='" . $link . "'>here</a> to set a password.<br /><br />Sambhal";
+				$mail->AltBody = "Hello " . $newfaculty['name'] . ",<br /> <a href='http://fromabctill.xyz/sambhal/'>Sambhal</a> is a CMS for labs.<br /><br />An account for you has been created by " . $_SESSION['name'] . ", following are the details:<br />username: '" . $newfaculty['email'] . "'<br />Password: Click <a href='" . $link . "'>here</a> to set a password.<br /><br />Sambhal";
 
 				if(!$mail->send())
 				{
@@ -72,14 +73,14 @@ if (1){ //isset($_SESSION['login']) AND $_SESSION['login']=="success" AND $_SESS
 
 			header('Location:../team.php');
 		} else{
-			header('Location:../admin.php');
+			header('Location:../home.php');
 		}
 	}else{
-		header('Location:../admin.php');
+		header('Location:../home.php');
 	}
 
 } else{ //if user is not logged in
-	header('Location:../admin.php');
+	header('Location:../home.php');
 }
 
 ?>

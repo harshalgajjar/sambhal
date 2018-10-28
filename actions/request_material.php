@@ -4,6 +4,7 @@
 include_once("../connections/connect.php");
 
 session_start();
+if($_SESSION['login']!="success") header("Location: index.php");
 
 $sql = "Select * from faculty where email = '" . $_POST['facultyRef'] . "'";
 $result = pg_query($db, $sql);

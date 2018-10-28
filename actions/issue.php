@@ -1,13 +1,10 @@
 <?php
 // Clicking issue button on the page index.php brings the user here
 
-include_once("../connections/connect.php");
 session_start();
+if($_SESSION['level']!="staff") header("Location: ../index.php");
 
-if($_SESSION['level']!="staff")
-{
-  
-}
+include_once("../connections/connect.php");
 
  ?>
 <html>
@@ -31,7 +28,32 @@ if($_SESSION['level']!="staff")
         <link rel="stylesheet" href="../style/style_issue.css" />
 
     </head>
-    <body>
+    <body style="padding-top:70px;">
+      <header>
+       <nav class="navbar navbar-default navbar-fixed-top">
+               <div class="container">
+                       <div class="navbar-header">
+                               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainbar">
+                                       <span class="icon-bar"></span>
+                                       <span class="icon-bar"></span>
+                                       <span class="icon-bar"></span>
+                               </button>
+                               <a class="navbar-brand logo" href="#">Sambhal</a>
+                       </div>
+
+                       <div class="collapse navbar-collapse" id="mainbar">
+                               <ul class="nav navbar-nav navbar-right">
+                                 <?php if($_SESSION['level']=="staff"){?>
+                                        <li><a href="../home.php">Home</a></li>
+                                        <li><a href="../actions/issue.php">Issue Component</a></li>
+                                        <li><a href="../team.php">Team</a></li>
+                                <?php } ?>
+                                       <li><a href="../logout.php">Log out</a></li>
+                               </ul>
+                       </div>
+               </div>
+       </nav>
+       </header>
 
       <div class="container">
         <div class="row">
@@ -315,10 +337,12 @@ function new_issual(){
     data:{"quantity":quantity, "roll_no":roll_no, "staff_id":staff_id, "expected_return":expected_return, "material_id":material_id},
     success:function(data)
     {
+      console.log(data);
       if(data == 'success')
       {
 
         location.reload();
+
         var search = $("#search_text").val();
         if(search != '')
         {
@@ -437,7 +461,7 @@ var groups;
 
 var container = document.getElementById('visualization');
 var d = new Date();
-d.setDate(d.getDate() - 2);
+// d.setDate(d.getDate() - 1);
 
 var options;
 var timeline;

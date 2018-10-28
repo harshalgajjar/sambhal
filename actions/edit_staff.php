@@ -5,7 +5,7 @@
 session_start(); //starting session to retrieve session variables
 date_default_timezone_set('Asia/Kolkata'); //setting default time zone
 
-if (1){ //isset($_SESSION['login']) AND $_SESSION['login']=="success" AND $_SESSION['level']=="gsha"){ //checking for login status
+if($_SESSION['level']=="staff"){ //isset($_SESSION['login']) AND $_SESSION['login']=="success" AND $_SESSION['level']=="gsha"){ //checking for login status
 
 	if($_SERVER['REQUEST_METHOD']=='POST'){
 
@@ -56,8 +56,8 @@ if (1){ //isset($_SESSION['login']) AND $_SESSION['login']=="success" AND $_SESS
 				// echo $link;
 
 				$mail->Subject = "[Sambhal] Welcome to IITDH Sambhal!";
-				$mail->Body = "Hello " . $newstaff['name'] . ",<br /> <a href='http://fromabctill.xyz/sambhal/'>Sambhal</a> is a CMS for labs.<br /><br />An account for you has been created by " . $_SESSION['name'] . ", following are the details:<br />username: '" . $newstaff['username'] . "'<br />Password: Click <a href='" . $link . "'>here</a> to set a password.<br /><br />Sambhal";
-				$mail->AltBody = "Hello " . $newstaff['name'] . ",<br /> <a href='http://fromabctill.xyz/sambhal/'>Sambhal</a> is a CMS for labs.<br /><br />An account for you has been created by " . $_SESSION['name'] . ", following are the details:<br />username: '" . $newstaff['username'] . "'<br />Password: Click <a href='" . $link . "'>here</a> to set a password.<br /><br />Sambhal";
+				$mail->Body = "Hello " . $newstaff['name'] . ",<br /> <a href='http://fromabctill.xyz/sambhal/'>Sambhal</a> is a CMS for labs.<br /><br />An account for you has been created by " . $_SESSION['name'] . ", following are the details:<br />username: '" . $newstaff['email'] . "'<br />Password: Click <a href='" . $link . "'>here</a> to set a password.<br /><br />Sambhal";
+				$mail->AltBody = "Hello " . $newstaff['name'] . ",<br /> <a href='http://fromabctill.xyz/sambhal/'>Sambhal</a> is a CMS for labs.<br /><br />An account for you has been created by " . $_SESSION['name'] . ", following are the details:<br />username: '" . $newstaff['email'] . "'<br />Password: Click <a href='" . $link . "'>here</a> to set a password.<br /><br />Sambhal";
 
 				if(!$mail->send())
 				{
@@ -70,7 +70,7 @@ if (1){ //isset($_SESSION['login']) AND $_SESSION['login']=="success" AND $_SESS
 
 			}
 
-			// header('Location:../team.php');
+			header('Location:../team.php');
 		} else{
 			header('Location:../home.php');
 		}

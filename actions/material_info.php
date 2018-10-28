@@ -1,5 +1,8 @@
 <?php
 
+session_start();
+if($_SESSION['level']!="staff") die();
+
   include_once("../connections/connect.php");
 
   if(isset($_POST["material_id"])){
