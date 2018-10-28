@@ -1,7 +1,14 @@
 <?php
 //AJAX Search for component/equipment
+<<<<<<< HEAD
 
 session_start();
+=======
+session_start();
+
+if($_SESSION['login']!="success") header("Location: index.php");
+
+>>>>>>> 959a58b1f34545b66e2597e684df61a2085c9863
 ?>
 
 <html>
@@ -16,6 +23,30 @@ session_start();
 
     </head>
     <body>
+      <header>
+       <nav class="navbar navbar-default navbar-fixed-top">
+               <div class="container">
+                       <div class="navbar-header">
+                               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainbar">
+                                       <span class="icon-bar"></span>
+                                       <span class="icon-bar"></span>
+                                       <span class="icon-bar"></span>
+                               </button>
+                               <a class="navbar-brand logo" href="#">Home</a>
+                       </div>
+
+                       <div class="collapse navbar-collapse" id="mainbar">
+                               <ul class="nav navbar-nav navbar-right">
+                                 <?php if($_SESSION['level']=="staff"){?>
+                                        <li><a href="actions/issue.php">Issue Component</a></li>
+                                        <li><a href="team.php">Team</a></li>
+                                <?php } ?>
+                                       <li><a href="logout.php">Log out</a></li>
+                               </ul>
+                       </div>
+               </div>
+       </nav>
+       </header>
         <div class="container">
 			<br />
 			<div>
@@ -31,6 +62,12 @@ session_start();
 		</div>
     </body>
 </html>
+
+
+
+
+
+
 
 <script>
 

@@ -65,9 +65,9 @@ if($_SESSION['level']!="staff")
               <br /><br />
               <!-- type cost comment -->
 
-              <span class="form-label">Type</span><span id="newtype" class="material_info"><?php if(isset($_GET['type'])) echo $_GET['type']; else echo "-"; ?></span>
-              <span class="form-label">Cost</span><span id="newcost" class="material_info"><?php if(isset($_GET['cost'])) echo $_GET['cost']; else echo "-"; ?></span>
-              <span class="form-label">Available Quantity</span><span id="newavailable" class="material_info"><?php if(isset($_GET['available'])) echo $_GET['available']; else echo "-"; ?></span>
+              <span class="form-label">Type</span><span id="newtype" class="material_info"></span>
+              <span class="form-label">Cost</span><span id="newcost" class="material_info"></span>
+              <span class="form-label">Available Quantity</span><span id="newavailable" class="material_info"></span>
 
               <?php
                 // echo "<span class=\"form-label\">Type</span><input id = \"newtype\" type=\"text\" name=\"type\" value='";
@@ -81,7 +81,7 @@ if($_SESSION['level']!="staff")
                 // if(isset($_GET['available'])) echo $_GET['available'];
                 // echo "' class=\"new-issue-input\" readonly> </input>";
               ?>
-              <span class="form-label">Quantity</span><input type="number" name="quantity" value="1" class="new-issue-input"/>
+              <span class="form-label">Quantity</span><input type="number"  min="1" name="quantity" value="1" class="new-issue-input"/>
               <span class="form-label">Roll Number</span><input type="number" name="roll_no" class="new-issue-input"/>
               <!-- <span class="form-label">Expected Return</span><input type="date" id = "return_date" name="expected_return" class="new-issue-input"/> -->
 
@@ -304,6 +304,11 @@ function new_issual(){
     return false;
   }
 
+  if(document.getElementById('return_date').value == null || document.getElementById('return_date').value == ""){
+    window.alert("select expected return date and time");
+    return false;
+  }
+
   $.ajax({
     url:"new_issual.php",
     method:"post",
@@ -396,7 +401,6 @@ function edit_issual_data(value, id, change){
       }
   });
 }
-
 function material_info(){
 
   console.log("material_info called");
@@ -577,6 +581,7 @@ $(document).ready(
 function()
 {
 
+  material_info();
 	load_data();
   material_info();
 

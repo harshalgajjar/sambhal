@@ -80,7 +80,15 @@ else
 
           $linkdata = array(
               'request' => "issue",
+<<<<<<< HEAD
               'id' => $row["id"]
+=======
+              'id' => $row["id"],
+              // 'type' => $row["type"],
+              // 'name' => $row["name"],
+              // 'cost' => $row["cost"],
+              // 'available' => $row["available"]
+>>>>>>> 959a58b1f34545b66e2597e684df61a2085c9863
           );
 
           $link = "./actions/" . $link . "?" . http_build_query($linkdata);
