@@ -80,11 +80,7 @@ else
 
           $linkdata = array(
               'request' => "issue",
-              'id' => $row["id"],
-              'type' => $row["type"],
-              'name' => $row["name"],
-              'cost' => $row["cost"],
-              'available' => $row["available"]
+              'id' => $row["id"]
           );
 
           $link = "./actions/" . $link . "?" . http_build_query($linkdata);
@@ -107,7 +103,7 @@ else
              <td></td>
              <td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>
  <td id="type" ><input class="new-material" type="text" id="new-type" placeholder="Type" /></td>
-             <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost" /></td> <td></td>
+             <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
  <td id="quantity" ><input class="new-material" type="text" id="new-quantity" placeholder="Total Quantity" /></td>
  <td id="comment" ><textarea type="text" id="new-comment" ></textarea></td>
              <td colspan=2><button type="button" name="btn_add" id="btn_add" class="btn btn-xs btn-success">+</button></td>
@@ -115,6 +111,25 @@ else
         </tr>
    ';
  };
+
+ if($_SESSION['level']!="staff"){
+  $output .= '
+       <tr>
+            <td>Request Material</td>
+            <td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>
+<td id="type" >
+<input class="new-material" type="text" id="new-type" placeholder="component/equipment"/>
+</td>
+            <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
+<td id="quantity" ><input class="new-material" type="text" id="new-quantity" placeholder="Total Quantity" /></td>
+<td id="comment" >
+  <textarea type="text" id="new-cause" placeholder="Reason"></textarea>
+  <input class="new-material" type="text" id="new-faculty-ref" placeholder="Faculty email" />
+</td>
+            <td colspan=2><button type="button" name="btn_request" id="btn_request" class="btn btn-xs btn-success">+</button></td>
+       </tr>
+  ';
+};
 
  $output .= '</tbody></table>
       </div>';

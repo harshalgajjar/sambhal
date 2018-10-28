@@ -1,5 +1,7 @@
 <?php
 //AJAX Search for component/equipment
+
+session_start();
 ?>
 
 <html>
@@ -175,6 +177,60 @@ function edit_data(value, id, change){
             }
         })
     });
+
+    $(document).on('click', '#btn_request', function()
+    {
+          var name = $('#new-name').val();
+  		    var type = $('#new-type').val();
+          var cost = $('#new-cost').val();
+  		    var quantity = $('#new-quantity').val();
+  		    var cause = $('#new-cause').val();
+          var facultyRef = $('#new-faculty-ref').val();
+          if(name == '')
+          {
+              alert("Enter name");
+              return false;
+          }
+  		    if(type == '')
+          {
+              alert("Enter type");
+              return false;
+          }
+          if(cost == '')
+          {
+              alert("Enter cost");
+              return false;
+          }
+  		    if(quantity == '')
+          {
+              alert("Enter quantity");
+              return false;
+          }
+  		    // if(comment == '')
+          // {
+          //     alert("Enter comment");
+          //     return false;
+          // }
+          $.ajax({
+              url:"./actions/request_material.php",
+              method:"POST",
+              data:{name:name,type:type,cost:cost,quantity:quantity,cause:cause, facultyRef: facultyRef},
+              dataType:"text",
+              success:function(data)
+              {
+                  alert(data);
+                  var search = $('#search_text').val();
+                  if(search != '')
+                  {
+                     load_data(search);
+                  }
+                  else
+                  {
+                    load_data();
+                  }
+              }
+          })
+      });
 
 	// function edit_data(id, text, column_name)
   //   {

@@ -4,6 +4,11 @@
 include_once("../connections/connect.php");
 session_start();
 
+if($_SESSION['level']!="staff")
+{
+  
+}
+
  ?>
 <html>
     <head>
@@ -573,6 +578,7 @@ function()
 {
 
 	load_data();
+  material_info();
 
 	$('#search_text').keyup(function(){
 		var search = $(this).val();
