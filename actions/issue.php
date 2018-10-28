@@ -397,11 +397,6 @@ function edit_issual_data(value, id, change){
   });
 }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 9f002bb6e765413b4872d465cd588396dc8e4e6b
 function material_info(){
 
   console.log("material_info called");
