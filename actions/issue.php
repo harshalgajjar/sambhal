@@ -237,7 +237,7 @@ include_once("../connections/connect.php");
 
                 var chart = new google.visualization.PieChart(document.getElementById('components'));
 
-                chart.draw(data, options);
+                 chart.draw(data, options);
               }
                </script>
 
@@ -281,7 +281,7 @@ include_once("../connections/connect.php");
 
                 var chart = new google.visualization.PieChart(document.getElementById('equipments'));
 
-                chart.draw(data, options);
+                 chart.draw(data, options);
               }
                </script>
 
@@ -341,7 +341,7 @@ function new_issual(){
       if(data == 'success')
       {
 
-        location.reload();
+         location.reload();
 
         var search = $("#search_text").val();
         if(search != '')

@@ -12,7 +12,6 @@
 {
 	$search =  $_POST["query"];
   $searchOptions = json_decode($_POST['selectedMaterials']);
-
   // print_r($searchOptions);
   // echo $searchOptions[0];
 
@@ -22,14 +21,25 @@
     $sql = $sql . "'" . $searchOptions[$i] . "'";
     if($i!=sizeof($searchOptions)-1) $sql = $sql . ",";
   }
-  $sql = $sql . ") and (LOWER(m.name) like LOWER('" . $search . "') or LOWER(m.comment) like LOWER('" . $search . "'))";
+  $sql = $sql . ") and (LOWER(m.name) like LOWER('" . $search . "') or LOWER(m.comment) like LOWER('" . $search . "') or LOWER(type) LIKE LOWER('$search') or quantity ::text LIKE '$search'  )";
   // echo $sql;
 
 }
 else
 {
-	$sql =" select  distinct m.id,m.type,m.name,m.quantity,m.cost,m.comment,(m.quantity - (select coalesce(sum(quantity),0) as available from issual where material_id = m.id and actual_return = '0001-01-01 00:00:00')) as available from material as m,issual as i order by id;
-";
+  if($_POST['selectedMaterials'] != '[]'){
+    $searchOptions = json_decode($_POST['selectedMaterials']);
+  $sql = " select  distinct m.id,m.type,m.name,m.quantity,m.cost,m.comment,(m.quantity - (select coalesce(sum(quantity),0) as available from issual where material_id = m.id and actual_return = '0001-01-01 00:00:00')) as available from material as m where m.type in (";
+  for($i=0; $i<sizeof($searchOptions); $i++){
+    $sql = $sql . "'" . $searchOptions[$i] . "'";
+    if($i!=sizeof($searchOptions)-1) $sql = $sql . ",";
+  }
+  $sql = $sql . ")";
+}
+else{
+$sql = " select  distinct m.id,m.type,m.name,m.quantity,m.cost,m.comment,(m.quantity - (select coalesce(sum(quantity),0) as available from issual where material_id = m.id and actual_return = '0001-01-01 00:00:00')) as available from material as m where m.type in (null";
+$sql = $sql . ")";
+}
 }
  $result = pg_query($db, $sql);
 
@@ -37,9 +47,10 @@ else
       <div>
         <table class="result-table" id="result-table">
         <thead>
-        <tr>
-        <th rowspan=2>Id</th>
-        <th rowspan=2>Name</th>
+        <tr>';
+
+  $output .= ' <th rowspan=2>Id</th>';
+ $output .= '<th rowspan=2>Name</th>
 		    <th rowspan=2>Type</th>
         <th rowspan=2>Cost</th>
 		    <th colspan=2>Quantity</th>
@@ -57,18 +68,13 @@ else
  $rows = pg_num_rows($result);
  if($rows > 0)
  {
-	  if($rows > 10)
-	  {
-		  $delete_records = $rows - 10;
-		  $delete_sql = "DELETE FROM material LIMIT $delete_records";
-		  pg_query($db, $delete_sql);
-	  }
+	 $i = 0;
       while($row = pg_fetch_array($result))
       {
-
+        $i++;
         $output .= '<tr class="material-data">';
 
-        $output .= '<td>'.$row["id"].'</td>';
+         $output .= '<td>'.$i.'</td>';
 
         $output .= '<td class="name" ><input onchange="edit_data(this.value,' . $row["id"] . ', \'name\')" id="" type="text" value="' . $row["name"] . '"'; if($_SESSION['level']!="staff") $output .= " readonly "; $output.= '/></td>';
 
@@ -98,15 +104,18 @@ else
         $output .= '</tr>';
       }
  }
-
+ // <input class="new-material"type="radio" name="new-type" value="equipment" checked> Equipment
+ // <input class="new-material" type="radio" name="new-type" value="component" checked> Component
 
   if($_SESSION['level']=="staff"){
    $output .= '
-        <tr>
-             <td></td>
-             <td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>
- <td id="type" ><input class="new-material" type="text" id="new-type" placeholder="Type" /></td>
-             <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
+        <tr>';
+     $output .= '<td></td>';
+    $output .= '<td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>
+ <td id="type" > <select id = "a" >
+        <option value="equipment">Equipment</option>
+        <option value="component">Component</option></select></td>
+            <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
  <td id="quantity" ><input class="new-material" type="text" id="new-quantity" placeholder="Total Quantity" /></td>
  <td id="comment" ><textarea type="text" id="new-comment" ></textarea></td>
              <td colspan=2><button type="button" name="btn_add" id="btn_add" class="btn btn-xs btn-success">+</button></td>
@@ -116,23 +125,23 @@ else
  };
 
  if($_SESSION['level']!="staff" && $_SESSION['level']!="faculty"){
-  $output .= '
-       <tr>
-            <td>Request Material</td>
-            <td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>
-<td id="type" >
-<input class="new-material" type="text" id="new-type" placeholder="component/equipment"/>
-</td>
-            <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
-<td id="quantity" ><input class="new-material" type="text" id="new-quantity" placeholder="Total Quantity" /></td>
-<td id="comment" >
-  <textarea type="text" id="new-cause" placeholder="Reason"></textarea>
-  <input class="new-material" type="text" id="new-faculty-ref" placeholder="Faculty email" />
-</td>
-            <td colspan=2><button type="button" name="btn_request" id="btn_request" class="btn btn-xs btn-success">+</button></td>
-       </tr>
-  ';
-};
+   $output .= '
+        <tr>
+             <td>Request Material</td>
+             <td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>
+ <td id="type" >
+ <input class="new-material" type="text" id="new-type" placeholder="component/equipment"/>
+ </td>
+             <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
+ <td id="quantity" ><input class="new-material" type="text" id="new-quantity" placeholder="Total Quantity" /></td>
+ <td id="comment" >
+   <textarea type="text" id="new-cause" placeholder="Reason"></textarea>
+   <input class="new-material" type="text" id="new-faculty-ref" placeholder="Faculty email" />
+ </td>
+             <td colspan=2><button type="button" name="btn_request" id="btn_request" class="btn btn-xs btn-success">+</button></td>
+        </tr>
+   ';
+ };
 
  $output .= '</tbody></table>
       </div>';

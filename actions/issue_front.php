@@ -45,16 +45,16 @@ EOF;
  $result = pg_query($db, $sql);
  $output .= '
       <div class="table-responsive">
-           <table class="result-table">
+           <table class="result-table" style="width: 100%;">
            <thead>
                 <tr>
                      <th width="10%"> Roll Number </th>
-                     <th width="15%">Name</th>
+                     <th width="10%">Name</th>
                      <th width="10%">Type</th>
 		                 <th width="5%">Quantity</th>
                      <th width="20%">Issual instance</th>
 		                 <th width="20%">Expected Return</th>
-		                 <th width="15%">Comment</th>
+		                 <th width="20%">Comment</th>
                      <th width="5%"> Return </th>
                 </tr>
            </thead><tbody>';
