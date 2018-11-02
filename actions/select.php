@@ -142,7 +142,7 @@ else{
              <td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>';
              $sql = "select type from material_type" ;
             $result = pg_query($db, $sql);
-            
+
             $output .= '<td id="type" >  <select id = "a" >';
             while($row  = pg_fetch_array(  $result)){
               $output .= '<option value="'.$row[0].'">'.$row[0].'</option>';
