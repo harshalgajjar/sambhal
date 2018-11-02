@@ -85,7 +85,7 @@ if(value<0){
   {
     load_data();
     // $('#result').html("<div class='alert alert-success'>"+data+"</div>");
-  }  
+  }
   return false;
 }
 
@@ -275,7 +275,7 @@ if(value<0){
     $(document).on('click', '#btn_request', function()
     {
           var name = $('#new-name').val();
-  		    var type = $('#new-type').val();
+  		     var type = $("#a").val();
           var cost = $('#new-cost').val();
   		    var quantity = $('#new-quantity').val();
   		    var cause = $('#new-cause').val();
