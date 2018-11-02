@@ -28,6 +28,7 @@ CREATE TABLE material (
   cost numeric(10,2) NOT NULL,
   delete_flag boolean NOT NULL DEFAULT '0',
   delete_timestamp timestamp,
+  add_timestamp timestamp DEFAULT now(), 
   comment text
 
 );
