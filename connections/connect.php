@@ -4,7 +4,7 @@
    $host        = "host = 172.16.135.144";
    $port        = "port = 5432";
    $dbname      = "dbname = project";
-   $credentials = "user = dbuser password=123456";
+   $credentials = "user = postgres password=harshal";
 
    $db = pg_connect( "$host $port $dbname $credentials"  );
    if(!$db) {
