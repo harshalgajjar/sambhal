@@ -5,7 +5,7 @@
 
 	include_once("../connections/connect.php");
 
-	$sql = "DELETE FROM material WHERE id = '".$_POST["id"]."' and not exists(select * from issual where material_id = '".$_POST["id"]."' and return_flag ='f')" ;
+	$sql = "UPDATE material SET delete_flag = '1' WHERE id = '".$_POST["id"]."'" ;
 	$result = pg_query($db, $sql);
 	$value = pg_affected_rows($result);
 	if($value == 0)

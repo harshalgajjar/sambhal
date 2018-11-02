@@ -21,7 +21,7 @@
     $sql = $sql . "'" . $searchOptions[$i] . "'";
     if($i!=sizeof($searchOptions)-1) $sql = $sql . ",";
   }
-  $sql = $sql . ") and (LOWER(m.name) like LOWER('" . $search . "') or LOWER(m.comment) like LOWER('" . $search . "') or LOWER(type) LIKE LOWER('$search') or quantity ::text LIKE '$search'  )";
+  $sql = $sql . ") and (LOWER(m.name) like LOWER('" . $search . "') or LOWER(m.comment) like LOWER('" . $search . "') or LOWER(type) LIKE LOWER('$search') or quantity ::text LIKE '$search'  ) and delete_flag = '0' ;";
   // echo $sql;
 
 }
@@ -34,11 +34,11 @@ else
     $sql = $sql . "'" . $searchOptions[$i] . "'";
     if($i!=sizeof($searchOptions)-1) $sql = $sql . ",";
   }
-  $sql = $sql . ")";
+  $sql = $sql . ") and delete_flag = '0' ;";
 }
 else{
 $sql = " select  distinct m.id,m.type,m.name,m.quantity,m.cost,m.comment,(m.quantity - (select coalesce(sum(quantity),0) as available from issual where material_id = m.id and actual_return = '0001-01-01 00:00:00')) as available from material as m where m.type in (null";
-$sql = $sql . ")";
+$sql = $sql . ") and delete_flag = '0' ;";
 }
 }
  $result = pg_query($db, $sql);
@@ -52,7 +52,7 @@ $sql = $sql . ")";
   $output .= ' <th rowspan=2>Id</th>';
  $output .= '<th rowspan=2>Name</th>
 		    <th rowspan=2>Type</th>
-        <th rowspan=2>Cost</th>
+        <th rowspan=2>Cost (per unit)</th>
 		    <th colspan=2>Quantity</th>
 		    <th rowspan=2>Comment</th>';
 
