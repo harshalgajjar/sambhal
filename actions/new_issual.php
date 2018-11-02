@@ -21,7 +21,7 @@ $sql = "insert INTO issual (student_id,staff_id,material_id,quantity,expected_re
   $sql.=$_POST["quantity"]."','";
   $sql.=$_POST["expected_return"]. "')";
 
-// echo $sql;
+ // echo $sql;
 
 if(pg_query($db, $sql))
 {

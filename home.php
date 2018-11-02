@@ -73,6 +73,21 @@ if($_SESSION['login']!="success") header("Location: index.php");
 
 function edit_data(value, id, change){
   console.log(id+ " " +change+" val="+value);
+if(value<0){
+  alert("Invalid Updation");
+  var search = $("#search_text").val();
+  if(search != '')
+  {
+    load_data(search);
+
+  }
+  else
+  {
+    load_data();
+    // $('#result').html("<div class='alert alert-success'>"+data+"</div>");
+  }  
+  return false;
+}
 
   $.ajax({
       url:"./actions/edit.php",
@@ -81,6 +96,22 @@ function edit_data(value, id, change){
       dataType:"text",
       success:function(data){
           // alert(data);
+          if(data != 'Data Updated')
+          {
+            alert("Error in data updation");
+            var search = $("#search_text").val();
+        		if(search != '')
+        		{
+        			load_data(search);
+
+        		}
+        		else
+        		{
+        			load_data();
+              // $('#result').html("<div class='alert alert-success'>"+data+"</div>");
+        		}
+            return;
+          }
 
           var search = $("#search_text").val();
       		if(search != '')
@@ -115,10 +146,11 @@ function edit_data(value, id, change){
     }
 
     if(selectedMaterials.length == 0){
-      window.alert("Please select an option to search");
-      return;
+      // window.alert("Please select an option to search");
+      // return;
+        selectedMaterials_json = null;
     }
-
+    // console.log(checkboxes[0].value);
     console.log(selectedMaterials);
 
     selectedMaterials_json = JSON.stringify(selectedMaterials);
@@ -147,24 +179,24 @@ function edit_data(value, id, change){
     }
   });
 
-	$('#search_text').keyup(function(){
+	 $('#search_text').keyup(function(){
 		var search = $(this).val();
 		if(search != '')
-		{
-			load_data(search);
-		}
-		else
-		{
-			load_data();
-		}
-	});
+	 	{
+	 		load_data(search);
+	 	}
+	 	else
+	 	{
+	 		load_data();
+	 	}
+	 });
 
 
 
   $(document).on('click', '#btn_add', function()
   {
         var name = $('#new-name').val();
-		    var type = $('#new-type').val();
+		    var type = $("#a").val();
         var cost = $('#new-cost').val();
 		    var quantity = $('#new-quantity').val();
 		    var comment = $('#new-comment').val();
@@ -188,6 +220,16 @@ function edit_data(value, id, change){
             alert("Enter quantity");
             return false;
         }
+      if(cost <0)
+      {
+          alert("Enter valid cost");
+          return false;
+      }
+      if(quantity <0)
+      {
+          alert("Enter valid Quantity");
+          return false;
+      }
 		    // if(comment == '')
         // {
         //     alert("Enter comment");
@@ -201,6 +243,22 @@ function edit_data(value, id, change){
             success:function(data)
             {
                 // alert(data);
+                if(data != 'Data Inserted')
+                {
+                  alert("Error in data values");
+                  var search = $("#search_text").val();
+              		if(search != '')
+              		{
+              			load_data(search);
+
+              		}
+              		else
+              		{
+              			load_data();
+                    // $('#result').html("<div class='alert alert-success'>"+data+"</div>");
+              		}
+                  return;
+                }
                 var search = $('#search_text').val();
                 if(search != '')
                 {
@@ -322,15 +380,23 @@ function edit_data(value, id, change){
                 success:function(data)
                 {
                     // alert(data);
-                    var search = $('#search_text').val();
-					          if(search != '')
-					          {
-						           load_data(search);
-					          }
+                    if(data == 'failure')
+                    {
+                      alert('error in deletion');
+                    }
                     else
-          					{
-          						load_data();
-          					}
+                    {
+                      var search = $('#search_text').val();
+  					          if(search != '')
+  					          {
+  						           load_data(search);
+  					          }
+                      else
+            					{
+            						load_data();
+            					}
+                    }
+
                 }
             });
         }
