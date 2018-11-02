@@ -42,7 +42,11 @@ $sql = $sql . ") and delete_flag = '0' ;";
 }
 }
  $result = pg_query($db, $sql);
-
+$rows = pg_num_rows($result);
+if (($_SESSION['level']=="faculty") && ( $rows == 0)){
+    $output .= '<span class="no-result"> <h3>No Results</h3 </span>';
+}
+else{
  $output .= '
       <div>
         <table class="result-table" id="result-table">
@@ -65,7 +69,8 @@ $sql = $sql . ") and delete_flag = '0' ;";
 
          $output.='</tr></thead><tbody>';
 
- $rows = pg_num_rows($result);
+       }
+
  if($rows > 0)
  {
 	 $i = 0;
@@ -104,6 +109,7 @@ $sql = $sql . ") and delete_flag = '0' ;";
         $output .= '</tr>';
       }
  }
+
  // <input class="new-material"type="radio" name="new-type" value="equipment" checked> Equipment
  // <input class="new-material" type="radio" name="new-type" value="component" checked> Component
 
@@ -111,11 +117,16 @@ $sql = $sql . ") and delete_flag = '0' ;";
    $output .= '
         <tr>';
      $output .= '<td></td>';
-    $output .= '<td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>
- <td id="type" > <select id = "a" >
-        <option value="equipment">Equipment</option>
-        <option value="component">Component</option></select></td>
-            <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
+    $output .= '<td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>';
+    $sql = "select type from material_type" ;
+   $result = pg_query($db, $sql);
+
+   $output .= '<td id="type" >  <select id = "a" >';
+   while($row  = pg_fetch_array(  $result)){
+     $output .= '<option value="'.$row[0].'">'.$row[0].'</option>';
+   }
+   $output .= '</select ></td>';
+          $output .= '    <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
  <td id="quantity" ><input class="new-material" type="text" id="new-quantity" placeholder="Total Quantity" /></td>
  <td id="comment" ><textarea type="text" id="new-comment" ></textarea></td>
              <td colspan=2><button type="button" name="btn_add" id="btn_add" class="btn btn-xs btn-success">+</button></td>
@@ -128,11 +139,19 @@ $sql = $sql . ") and delete_flag = '0' ;";
    $output .= '
         <tr>
              <td>Request Material</td>
-             <td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>
- <td id="type" >
- <input class="new-material" type="text" id="new-type" placeholder="component/equipment"/>
- </td>
-             <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
+             <td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>';
+             $sql = "select type from material_type" ;
+            $result = pg_query($db, $sql);
+            
+            $output .= '<td id="type" >  <select id = "a" >';
+            while($row  = pg_fetch_array(  $result)){
+              $output .= '<option value="'.$row[0].'">'.$row[0].'</option>';
+            }
+            $output .= '</select ></td>';
+
+
+
+  $output .= '<td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
  <td id="quantity" ><input class="new-material" type="text" id="new-quantity" placeholder="Total Quantity" /></td>
  <td id="comment" >
    <textarea type="text" id="new-cause" placeholder="Reason"></textarea>
@@ -141,7 +160,7 @@ $sql = $sql . ") and delete_flag = '0' ;";
              <td colspan=2><button type="button" name="btn_request" id="btn_request" class="btn btn-xs btn-success">+</button></td>
         </tr>
    ';
- };
+ }
 
  $output .= '</tbody></table>
       </div>';

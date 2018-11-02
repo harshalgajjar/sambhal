@@ -4,7 +4,7 @@
    $host        = "host = localhost";
    $port        = "port = 5432";
    $dbname      = "dbname = project";
-   $credentials = "user = pranay password=amtlmtc@1998";
+   $credentials = "user = dbuser password=123456";
 
    $db = pg_connect( "$host $port $dbname $credentials"  );
    if(!$db) {
