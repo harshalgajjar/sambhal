@@ -140,7 +140,7 @@ else{
         <tr>
              <td>Request Material</td>
              <td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>';
-             $sql = "select type from material_type" ;
+             $sql = "select name from material_type" ;
             $result = pg_query($db, $sql);
 
             $output .= '<td id="type" >  <select id = "a" >';
