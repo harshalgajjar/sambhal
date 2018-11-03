@@ -58,4 +58,9 @@ INSERT INTO purchase_order (request_id, staff_id, faculty_id, date, status, comm
 ( 2, 1, 1, now(), '', ''),
 ( 4, 1, 2, now(), '', '');
 
+INSERT INTO material_type (name) VALUES
+( 'Component'),
+( 'Equipment'),
+( 'Consumable');
+
 commit;

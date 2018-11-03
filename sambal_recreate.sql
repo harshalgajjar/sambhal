@@ -7,6 +7,7 @@ drop table student;
 drop table staff;
 drop table material;
 drop table faculty;
+drop table material_type;
 
 CREATE TABLE faculty (
   id serial NOT NULL primary key ,
@@ -16,7 +17,7 @@ CREATE TABLE faculty (
   dept varchar(50) NOT NULL,
   phone_no varchar(10) NOT NULL,
   flag varchar(32) ,
-  verifed boolean,
+  verified boolean,
   reset_flag varchar(64)
 );
 
@@ -41,7 +42,7 @@ CREATE TABLE staff (
   phone_no varchar(10) NOT NULL,
   designation varchar(15) NOT NULL,
   flag varchar(32) ,
-  verifed boolean,
+  verified boolean,
   reset_flag varchar(64)
 );
 
@@ -53,7 +54,7 @@ CREATE TABLE student (
   dept varchar(50) NOT NULL,
   phone_no varchar(10) NOT NULL,
   flag varchar(32) ,
-  verifed boolean,
+  verified boolean,
   reset_flag varchar(64)
 );
 
@@ -79,8 +80,8 @@ CREATE TABLE issual (
   staff_id int NOT NULL,
   quantity int NOT NULL,
   issual_instance timestamp NOT NULL DEFAULT now(),
-  expected_return timestamp NOT NULL DEFAULT '0001-01-01 00:00:00.000000',
-  actual_return timestamp NOT NULL DEFAULT '0001-01-01 00:00:00.000000',
+  expected_return timestamp NOT NULL DEFAULT now(),
+  actual_return timestamp NOT NULL DEFAULT now(),
   return_flag boolean DEFAULT '0',
   comment text ,
   foreign key (staff_id) references staff,
@@ -98,6 +99,11 @@ CREATE TABLE purchase_order (
   foreign key (request_id) references request,
   foreign key (staff_id) references staff,
   foreign key (faculty_id) references faculty
+);
+
+CREATE TABLE material_type(
+ id serial NOT NULL primary key,
+ name varchar(25) NOT NULL UNIQUE
 );
 
 

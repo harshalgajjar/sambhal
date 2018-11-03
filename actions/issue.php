@@ -115,6 +115,8 @@ include_once("../connections/connect.php");
                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
               </div>
 
+              <span class="form-label">Comment</span><textarea type="text" name="comment" class="new-issue-input"></textarea><br />
+
               <br />
               <input class="submit-button" type="submit" name="issue" value="Submit" />
 
@@ -320,6 +322,7 @@ function new_issual(){
   var staff_id = <?php echo $_SESSION["id"]; ?>;//staff_id
   var expected_return =  document.forms['new-issual-form'].elements['expected_return'].value;//expected_return
   var material_id =  document.forms['new-issual-form'].elements['component'].value;//material_id
+  var comment =  document.forms['new-issual-form'].elements['comment'].value;//material_id
 
   if(parseInt(quantity)>parseInt(document.getElementById('newavailable').innerHTML)){
     window.alert("quantity>available");
@@ -334,7 +337,7 @@ function new_issual(){
   $.ajax({
     url:"new_issual.php",
     method:"post",
-    data:{"quantity":quantity, "roll_no":roll_no, "staff_id":staff_id, "expected_return":expected_return, "material_id":material_id},
+    data:{"quantity":quantity, "roll_no":roll_no, "staff_id":staff_id, "expected_return":expected_return, "material_id":material_id, "comment":comment},
     success:function(data)
     {
       console.log(data);

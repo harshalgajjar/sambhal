@@ -34,7 +34,7 @@ include_once("connections/connect.php");
                        <div class="collapse navbar-collapse" id="mainbar">
                                <ul class="nav navbar-nav navbar-right">
                                  <?php if($_SESSION['level']=="staff" || $_SESSION['level']=="faculty"){?>
-                                        <li><a href="home.php">Requests</a></li>
+                                        <!-- <li><a href="home.php">Requests</a></li> -->
                                 <?php } ?>
                                  <?php if($_SESSION['level']=="staff"){?>
                                         <li><a href="home.php">Home</a></li>
@@ -56,11 +56,11 @@ include_once("connections/connect.php");
 					<input type="text" name="search_text" id="search_text" placeholder="Search" class="form-control" />
 
           <?php
-          $sql = "select type from material_type" ;
+          $sql = "select * from material_type" ;
          $result = pg_query($db, $sql);
 
          while($row  = pg_fetch_array(  $result)){
-           echo "<input class=\"search-option\" type=\"checkbox\" name=\"search-option\" value=\"".$row[0]."\" checked> ".$row[0]."<br />";
+           echo "<input class=\"search-option\" type=\"checkbox\" name=\"search-option\" value=\"".strtolower($row["name"])."\" checked> ".$row["name"]."<br />";
          }
          ?>
           <!-- <input class="search-option" type="checkbox" name="search-option" value="component" checked> Components<br />

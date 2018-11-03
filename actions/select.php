@@ -118,12 +118,12 @@ else{
         <tr>';
      $output .= '<td></td>';
     $output .= '<td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>';
-    $sql = "select type from material_type" ;
+    $sql = "select * from material_type" ;
    $result = pg_query($db, $sql);
 
    $output .= '<td id="type" >  <select id = "a" >';
    while($row  = pg_fetch_array(  $result)){
-     $output .= '<option value="'.$row[0].'">'.$row[0].'</option>';
+     $output .= '<option value="'.strtolower($row["name"]).'">'.$row["name"].'</option>';
    }
    $output .= '</select ></td>';
           $output .= '    <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
