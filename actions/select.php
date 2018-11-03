@@ -117,11 +117,16 @@ else{
    $output .= '
         <tr>';
      $output .= '<td></td>';
-    $output .= '<td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>
- <td id="type" > <select id = "a" >
-        <option value="equipment">Equipment</option>
-        <option value="component">Component</option></select></td>
-            <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
+    $output .= '<td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>';
+    $sql = "select type from material_type" ;
+   $result = pg_query($db, $sql);
+
+   $output .= '<td id="type" >  <select id = "a" >';
+   while($row  = pg_fetch_array(  $result)){
+     $output .= '<option value="'.$row[0].'">'.$row[0].'</option>';
+   }
+   $output .= '</select ></td>';
+          $output .= '    <td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
  <td id="quantity" ><input class="new-material" type="text" id="new-quantity" placeholder="Total Quantity" /></td>
  <td id="comment" ><textarea type="text" id="new-comment" ></textarea></td>
              <td colspan=2><button type="button" name="btn_add" id="btn_add" class="btn btn-xs btn-success">+</button></td>
@@ -135,9 +140,16 @@ else{
         <tr>
              <td>Request Material</td>
              <td id="name" ><input class="new-material" type="text" id="new-name" placeholder="Name" /></td>';
-          $output .= '<td id="type" > <select id = "a" >
-                    <option value="equipment">Equipment</option>
-                    <option value="component">Component</option></select></td>';
+             $sql = "select type from material_type" ;
+            $result = pg_query($db, $sql);
+
+            $output .= '<td id="type" >  <select id = "a" >';
+            while($row  = pg_fetch_array(  $result)){
+              $output .= '<option value="'.$row[0].'">'.$row[0].'</option>';
+            }
+            $output .= '</select ></td>';
+
+
 
   $output .= '<td id="cost" ><input class="new-material" type="text" id="new-cost" placeholder="Cost (per unit)" /></td> <td></td>
  <td id="quantity" ><input class="new-material" type="text" id="new-quantity" placeholder="Total Quantity" /></td>
@@ -148,7 +160,7 @@ else{
              <td colspan=2><button type="button" name="btn_request" id="btn_request" class="btn btn-xs btn-success">+</button></td>
         </tr>
    ';
- };
+ }
 
  $output .= '</tbody></table>
       </div>';

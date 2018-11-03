@@ -3,6 +3,7 @@
 session_start();
 
 if($_SESSION['login']!="success") header("Location: index.php");
+include_once("connections/connect.php");
 
 ?>
 
@@ -54,8 +55,16 @@ if($_SESSION['login']!="success") header("Location: index.php");
         </div><br />
 					<input type="text" name="search_text" id="search_text" placeholder="Search" class="form-control" />
 
-          <input class="search-option" type="checkbox" name="search-option" value="component" checked> Components<br />
-          <input class="search-option" type="checkbox" name="search-option" value="equipment" checked> Equipments<br />
+          <?php
+          $sql = "select type from material_type" ;
+         $result = pg_query($db, $sql);
+
+         while($row  = pg_fetch_array(  $result)){
+           echo "<input class=\"search-option\" type=\"checkbox\" name=\"search-option\" value=\"".$row[0]."\" checked> ".$row[0]."<br />";
+         }
+         ?>
+          <!-- <input class="search-option" type="checkbox" name="search-option" value="component" checked> Components<br />
+          <input class="search-option" type="checkbox" name="search-option" value="equipment" checked> Equipments<br /> -->
 
 					<br>
 				<span id="result"></span>
