@@ -43,11 +43,22 @@ include_once("../connections/connect.php");
 
                        <div class="collapse navbar-collapse" id="mainbar">
                                <ul class="nav navbar-nav navbar-right">
+                                 <?php if($_SESSION['level']=="staff" || $_SESSION['level']=="faculty"){?>
+                                        <!-- <li><a href="home.php">Requests</a></li> -->
+                                <?php } ?>
                                  <?php if($_SESSION['level']=="staff"){?>
                                         <li><a href="../home.php">Home</a></li>
-                                        <li><a href="../actions/issue.php">Issue Component</a></li>
+                                        <li><a href="issue.php">Issue Component</a></li>
                                         <li><a href="../team.php">Team</a></li>
+                                        <li><a href="orders.php">Orders</a></li>
                                 <?php } ?>
+                                <?php if($_SESSION['level']=="student"){?>
+                                       <li><a href="history.php">History</a></li>
+                               <?php } ?>
+                                <?php if($_SESSION['level']=="faculty"){?>
+                                       <li><a href="orders.php">Requests</a></li>
+                               <?php } ?>
+                                        <li><a href="timetable.php">Time Table</a></li>
                                        <li><a href="../logout.php">Log out</a></li>
                                </ul>
                        </div>
