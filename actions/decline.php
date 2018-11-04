@@ -9,7 +9,7 @@
 	$sql = "UPDATE request SET status = 'Declined' WHERE id='".$id."'";
 	if(pg_query($db, $sql))
 	{
-		 echo 'Declined Succesfully';
+		echo 'Declined Succesfully';
 	}
 
  ?>

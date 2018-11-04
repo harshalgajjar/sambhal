@@ -58,7 +58,7 @@ include_once("../connections/connect.php");
                                 <?php if($_SESSION['level']=="faculty"){?>
                                        <li><a href="orders.php">Requests</a></li>
                                <?php } ?>
-                                        <li><a href="timetable.php">Time Table</a></li>
+                                        <!-- <li><a href="timetable.php">Time Table</a></li> -->
                                        <li><a href="../logout.php">Log out</a></li>
                                </ul>
                        </div>
@@ -118,12 +118,14 @@ include_once("../connections/connect.php");
               <span class="form-label">Roll Number</span><input type="number" name="roll_no" class="new-issue-input"/>
               <!-- <span class="form-label">Expected Return</span><input type="date" id = "return_date" name="expected_return" class="new-issue-input"/> -->
 
-              <span class="form-label">Expected Return</span>
-              <div class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy HH:ii p" data-link-field="dtp_input1">
-                <input id="return_date" name="expected_return" class="form-control new-issue-input" type="text" value="" readonly>
-                <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> -->
-                <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span> -->
-                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+              <div id="return-date">
+                <span class="form-label">Expected Return</span>
+                <div class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy HH:ii p" data-link-field="dtp_input1">
+                  <input id="return_date" name="expected_return" class="form-control new-issue-input" type="text" value="" readonly>
+                  <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> -->
+                  <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span> -->
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
               </div>
 
               <span class="form-label">Comment</span><textarea type="text" name="comment" class="new-issue-input"></textarea><br />
@@ -306,16 +308,16 @@ include_once("../connections/connect.php");
             </div><br />
 
             </div>
-            <h3>Details</h3>
-            <div class="table-responsive">
-      					<input type="text" name="search_text" id="search_text" placeholder="Search" class="form-control" />
-      					<br>
-      				<div id="result"></div>
-      				<div id="live_data"></div>
-      			</div>
 
 
           </div>
+        </div><!--ends row -->
+        <h3>Details</h3>
+        <div class="table-responsive">
+            <input type="text" name="search_text" id="search_text" placeholder="Search" class="form-control" />
+            <br>
+          <div id="result"></div>
+          <div id="live_data"></div>
         </div>
       </div>
 
@@ -325,6 +327,8 @@ include_once("../connections/connect.php");
 <script>
 
 // $('#return_date').datepicker();
+
+var consumable=false;
 
 function new_issual(){
 
@@ -340,9 +344,12 @@ function new_issual(){
     return false;
   }
 
-  if(document.getElementById('return_date').value == null || document.getElementById('return_date').value == ""){
+
+  if((!consumable) && (document.getElementById('return_date').value == null || document.getElementById('return_date').value == "")){
     window.alert("select expected return date and time");
     return false;
+  }else{
+    // expected_return=;
   }
 
   $.ajax({
@@ -464,6 +471,13 @@ function material_info(){
       // console.log(obj.cost);
       $('#newtype').html(obj.type);
       $('#newcost').html(obj.cost);
+      if(obj.type=="consumable"){
+        document.getElementById("return-date").style.display="none";
+        consumable=true;
+      }else{
+        document.getElementById("return-date").style.display="block";
+        consumable=false;
+      }
       $('#newavailable').html(obj.available);
     }
   });
@@ -490,7 +504,7 @@ function load_timeline(){
     $i=1;
     // select  from issual, student, material where issual.material_id = material.id and issual.student_id = student.id;
 
-    $sql = "select issual.id as id, issual.quantity as quantity, student.roll_no as roll_no, material.id as material_id, issual_instance, expected_return, actual_return from issual, student, material where issual.material_id = material.id and issual.student_id = student.id and issual.return_flag='f'" ;// . " and status='Approval Pending'";
+    $sql = "select issual.id as id, issual.quantity as quantity, student.roll_no as roll_no, material.id as material_id, issual_instance, expected_return, actual_return from issual, student, material where issual.material_id = material.id and issual.student_id = student.id and issual.return_flag='f' and material.type!='consumable'" ;// . " and status='Approval Pending'";
     $request = pg_query($db, $sql);
     while($row = pg_fetch_array($request)){
 
@@ -528,7 +542,7 @@ function load_timeline(){
     include_once("../connections/connect.php");
 
     $i=1;
-    $sql = "select distinct material.id as material_id, material.name as name from issual, material where issual.material_id = material.id and issual.return_flag='f' order by material.name;";// . " and status='Approval Pending'";
+    $sql = "select distinct material.id as material_id, material.name as name from issual, material where issual.material_id = material.id and issual.return_flag='f' and material.type!='consumable' order by material.name;";// . " and status='Approval Pending'";
     $request=pg_query($db, $sql);
     while($row = pg_fetch_array($request)){
       echo "{id: " . $row['material_id'] . ", content: '" . $row['name'] . "'}";
@@ -563,6 +577,14 @@ function load_timeline(){
 
   timeline = new vis.Timeline(container, items, groups, options);
 }
+
+timeline.on('doubleClick', function (properties) {
+  if(!properties.item) return;
+  console.log('selected items: ' + properties.item);
+
+  return_material(properties.item);
+
+});
 
 function load_data(search)
 {

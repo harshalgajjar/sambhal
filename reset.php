@@ -50,7 +50,7 @@ if(isset($_POST['reset_submit'])){ //if submit button clicked
   			//connection to database successful
         $rset_flag = md5(rand(100,200));
 
-  			$sql="update " . $_SESSION['type'] . " SET password='" . $password1 . "' WHERE id='" . $_SESSION['preset_id'] . "' AND reset_flag='" . $_SESSION['preset_flag'] . "' AND verified='false'"; //sql to find user with entered username and password
+  			$sql="update " . $_SESSION['type'] . " SET password='" . $password1 . "' WHERE id='" . $_SESSION['preset_id'] . "' AND reset_flag='" . $_SESSION['preset_flag'] . "'"; //sql to find user with entered username and password
         echo $sql;
         $request=pg_query($db,$sql);
 

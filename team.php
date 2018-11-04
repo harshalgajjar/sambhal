@@ -60,7 +60,7 @@ $formcounter=0;
                             <?php if($_SESSION['level']=="faculty"){?>
                                    <li><a href="./actions/orders.php">Requests</a></li>
                            <?php } ?>
-                                    <li><a href="./actions/timetable.php">Time Table</a></li>
+                                    <!-- <li><a href="./actions/timetable.php">Time Table</a></li> -->
                                    <li><a href="logout.php">Log out</a></li>
                            </ul>
                    </div>

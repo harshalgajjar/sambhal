@@ -44,7 +44,7 @@ $sql = $sql . ") and delete_flag = '0' ;";
  $result = pg_query($db, $sql);
 $rows = pg_num_rows($result);
 if (($_SESSION['level']=="faculty") && ( $rows == 0)){
-    $output .= '<span class="no-result"> <h3>No Results</h3 </span>';
+    $output .= '<span class="no_results"> <h4>No Results</h4> </span>';
 }
 else{
  $output .= '

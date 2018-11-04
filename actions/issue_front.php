@@ -35,7 +35,7 @@ if($_SESSION['level']!="staff") die();
 	$sql = "select distinct s.roll_no,i.id,m.name,m.type,i.quantity,i.issual_instance,i.actual_return,i.expected_return,i.comment
   from issual as i,material as m,student as s
   where m.id = i.material_id and
-  i.student_id = s.id and return_flag = '0' order by i.issual_instance desc;";
+  i.student_id = s.id and return_flag = '0' and m.type!='consumable' order by i.issual_instance desc;";
 
   $query = "select distinct s.roll_no,i.id,m.name,m.type,i.quantity,i.issual_instance,i.actual_return,i.expected_return,i.comment
     from issual as i,material as m,student as s
@@ -114,7 +114,9 @@ if($_SESSION['level']!="staff") die();
 			   </tr></thead><tbody>';
  }
 
- $output .= '</table>';
+ $output .= '</table><br />';
+
+ $output .= "return <span id='today'>today</span><span id='past'>past</span><br />";
 
  $output .= '<br /> <br />
  <h4>Returned</h4>

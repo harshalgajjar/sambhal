@@ -9,7 +9,7 @@ include_once("../connections/connect.php");
 
 <html>
   <head>
-    <title>Home - EDL Lab</title>
+    <title>Orders - EDL Lab</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -36,8 +36,8 @@ include_once("../connections/connect.php");
                                <?php if($_SESSION['level']=="staff" || $_SESSION['level']=="faculty"){?>
                                       <!-- <li><a href="home.php">Requests</a></li> -->
                               <?php } ?>
+                                     <li><a href="../home.php">Home</a></li>
                                <?php if($_SESSION['level']=="staff"){?>
-                                      <li><a href="../home.php">Home</a></li>
                                       <li><a href="issue.php">Issue Component</a></li>
                                       <li><a href="../team.php">Team</a></li>
                                       <li><a href="orders.php">Orders</a></li>
@@ -48,7 +48,7 @@ include_once("../connections/connect.php");
                               <?php if($_SESSION['level']=="faculty"){?>
                                      <li><a href="orders.php">Requests</a></li>
                              <?php } ?>
-                                      <li><a href="timetable.php">Time Table</a></li>
+                                      <!-- <li><a href="timetable.php">Time Table</a></li> -->
                                      <li><a href="../logout.php">Log out</a></li>
                              </ul>
                      </div>
@@ -56,11 +56,11 @@ include_once("../connections/connect.php");
      </nav>
      </header>
      <br />
-     <br />
-     <div class="container" id = "live_table">
-
-
-</div>
+     <div class="container">
+       <span id="result"></span>
+       <div id = "live_table">
+       </div>
+     </div>
 </body>
 </html>
 
@@ -70,6 +70,25 @@ include_once("../connections/connect.php");
 
 
 load_table();
+
+function updateOrder(id, val, attr){
+
+  $.ajax({
+    url:"./update_order.php",
+    method:"post",
+    data:{'id':id,'val':val,'attr':attr},
+    success:function(data)
+    {
+      if(data=="Success"){
+        $('#result').html("<div class='alert alert-success'>Request updated</div>");
+      }else{
+        $('#result').html("<div class='alert alert-danger'>Request update failed</div>");
+      }
+    }
+  });
+
+
+}
 
 function load_table()
 {
@@ -84,10 +103,6 @@ function load_table()
     }
   });
 }
-
-
-
-
 
 $(document).on('click', '.btn_approve', function(){
     var id=$(this).data("id1");

@@ -15,6 +15,7 @@ $student_id = $row['id'];
 
 // print_r($_POST);
 
+if($_POST['expected_return']!=""){
 $sql = "insert INTO issual (student_id,staff_id,material_id,quantity,expected_return,comment) VALUES('" .$student_id. "','" ;
   $sql.=$_POST["staff_id"] . "', '" ;
   $sql.=$_POST["material_id"]."','";
@@ -22,7 +23,15 @@ $sql = "insert INTO issual (student_id,staff_id,material_id,quantity,expected_re
   $sql.=$_POST["expected_return"]."','";
   $sql.=$_POST["comment"];
   $sql.="')";
+}else{
+  $sql = "insert INTO issual (student_id,staff_id,material_id,quantity,comment) VALUES('" .$student_id. "','" ;
+    $sql.=$_POST["staff_id"] . "', '" ;
+    $sql.=$_POST["material_id"]."','";
+    $sql.=$_POST["quantity"]."','";
+    $sql.=$_POST["comment"];
+    $sql.="')";
 
+}
  // echo $sql;
 
 if(pg_query($db, $sql))
