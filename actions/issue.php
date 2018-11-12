@@ -48,7 +48,7 @@ include_once("../connections/connect.php");
                                 <?php } ?>
                                  <?php if($_SESSION['level']=="staff"){?>
                                         <li><a href="../home.php">Home</a></li>
-                                        <li><a href="issue.php">Issue Component</a></li>
+                                        <li><a href="issue.php">Issue</a></li>
                                         <li><a href="../team.php">Team</a></li>
                                         <li><a href="orders.php">Orders</a></li>
                                 <?php } ?>
@@ -78,7 +78,7 @@ include_once("../connections/connect.php");
                 <option value="-1">Select</option>
               <?php
 
-              $sql = "select * from material;";
+              $sql = "select * from material where delete_flag = 'f';";
               $request = pg_query($db, $sql);
 
               while($row = pg_fetch_array($request)){
@@ -153,12 +153,12 @@ include_once("../connections/connect.php");
               function drawChart() {
                 var data = google.visualization.arrayToDataTable([
                 <?php
-                $sql_2="select * from material order by type, name;"; //preparing SQL command to get all issue types // type = 'component'
+                $sql_2="select * from material  where delete_flag = 'f' order by type, name;"; //preparing SQL command to get all issue types // type = 'component'
                 $request_2=pg_query($db,$sql_2);
                 $ntypes=pg_num_rows($request_2);
                 echo "['Name','Issued','Left'],";
 
-                $sql_4="select * from material order by type, name;"; // type = 'component'
+                $sql_4="select * from material  where delete_flag = 'f' order by type, name;"; // type = 'component'
                 $request_4=pg_query($db,$sql_4);
                 $ntypes_4=pg_num_rows($request_4);
 
@@ -222,12 +222,12 @@ include_once("../connections/connect.php");
               function drawChart() {
                 var data = google.visualization.arrayToDataTable([
                 <?php
-                $sql_2="select * from material where type = 'component' order by name;"; //preparing SQL command to get all issue types
+                $sql_2="select * from material where type = 'component' and delete_flag = 'f' order by name;"; //preparing SQL command to get all issue types
                 $request_2=pg_query($db,$sql_2);
                 $ntypes=pg_num_rows($request_2);
                 echo "['Name','Quantity'],";
 
-                $sql_4="select * from material where type = 'component' order by name;";
+                $sql_4="select * from material where type = 'component' and delete_flag = 'f' order by name;";
                 $request_4=pg_query($db,$sql_4);
                 $ntypes_4=pg_num_rows($request_4);
 
@@ -266,12 +266,12 @@ include_once("../connections/connect.php");
               function drawChart() {
                 var data = google.visualization.arrayToDataTable([
                 <?php
-                $sql_2="select * from material where type = 'equipment' order by name;"; //preparing SQL command to get all issue types
+                $sql_2="select * from material where type = 'equipment' and delete_flag = 'f' order by name;"; //preparing SQL command to get all issue types
                 $request_2=pg_query($db,$sql_2);
                 $ntypes=pg_num_rows($request_2);
                 echo "['Name','Quantity'],";
 
-                $sql_4="select * from material where type = 'equipment' order by name;";
+                $sql_4="select * from material where type = 'equipment' and delete_flag = 'f' order by name;";
                 $request_4=pg_query($db,$sql_4);
                 $ntypes_4=pg_num_rows($request_4);
 

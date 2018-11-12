@@ -25,7 +25,8 @@ if($_SESSION['level']!="staff") die();
   (s.roll_no ::text LIKE '$search' or LOWER(m.name) LIKE LOWER('$search') or LOWER(m.type) LIKE LOWER('$search') or i.quantity ::text LIKE '$search' or LOWER(i.comment) LIKE LOWER('$search'))
   and return_flag = '1' order by i.actual_return desc;";
 
-  $sql2="select student.roll_no, material.name, issual.quantity, issual.issual_instance, issual.comment from issual, material, student where issual.material_id = material.id and issual.student_id = student.id and material.type='consumable' and student.name ::text LIKE '$search' or LOWER(material.name) LIKE LOWER('$search') or LOWER(material.type) LIKE LOWER('$search') or issual.quantity ::text LIKE '$search' or LOWER(issual.comment) LIKE LOWER('$search');";
+  $sql2="select distinct student.roll_no, material.name, issual.quantity, issual.issual_instance, issual.comment from issual, material, student where issual.material_id = material.id and issual.student_id = student.id and material.type='consumable' and (  LOWER(material.name) LIKE LOWER('$search') or issual.quantity ::text LIKE '$search' or LOWER(issual.comment) LIKE LOWER('$search') or
+  student.roll_no ::text LIKE '$search') order by issual.issual_instance desc;";
 
   }
 
@@ -42,7 +43,7 @@ if($_SESSION['level']!="staff") die();
     where m.id = i.material_id and
     i.student_id = s.id and return_flag = '1' order by i.actual_return desc;";
 
-  $sql2="select student.roll_no, material.name, issual.quantity, issual.issual_instance, issual.comment from issual, material, student where issual.material_id = material.id and issual.student_id = student.id and material.type='consumable';";
+  $sql2="select distinct student.roll_no, material.name, issual.quantity, issual.issual_instance, issual.comment from issual, material, student where issual.material_id = material.id and issual.student_id = student.id and material.type='consumable';";
 
 }
  $result = pg_query($db, $sql);

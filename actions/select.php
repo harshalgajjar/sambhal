@@ -16,7 +16,7 @@
   // echo $searchOptions[0];
 
   $search = "%".$search."%";
-  $sql = " select  distinct m.id,m.type,m.name,m.quantity,m.cost,m.comment,(m.quantity - (select coalesce(sum(quantity),0) as available from issual where material_id = m.id and actual_return = '0001-01-01 00:00:00')) as available from material as m where m.type in (";
+  $sql = " select  distinct m.id,m.type,m.name,m.quantity,m.cost,m.comment,(m.quantity - (select coalesce(sum(quantity),0) as available from issual where material_id = m.id and (actual_return = '0001-01-01 00:00:00' ))) as available from material as m where m.type in (";
   for($i=0; $i<sizeof($searchOptions); $i++){
     $sql = $sql . "'" . $searchOptions[$i] . "'";
     if($i!=sizeof($searchOptions)-1) $sql = $sql . ",";
@@ -29,7 +29,7 @@ else
 {
   if($_POST['selectedMaterials'] != '[]'){
     $searchOptions = json_decode($_POST['selectedMaterials']);
-  $sql = " select  distinct m.id,m.type,m.name,m.quantity,m.cost,m.comment,(m.quantity - (select coalesce(sum(quantity),0) as available from issual where material_id = m.id and actual_return = '0001-01-01 00:00:00')) as available from material as m where m.type in (";
+  $sql = " select  distinct m.id,m.type,m.name,m.quantity,m.cost,m.comment,(m.quantity - (select coalesce(sum(quantity),0) as available from issual where material_id = m.id and  (actual_return = '0001-01-01 00:00:00'))) as available from material as m where m.type in (";
   for($i=0; $i<sizeof($searchOptions); $i++){
     $sql = $sql . "'" . $searchOptions[$i] . "'";
     if($i!=sizeof($searchOptions)-1) $sql = $sql . ",";

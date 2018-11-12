@@ -50,7 +50,7 @@ $formcounter=0;
                             <?php } ?>
                              <?php if($_SESSION['level']=="staff"){?>
                                     <li><a href="home.php">Home</a></li>
-                                    <li><a href="./actions/issue.php">Issue Component</a></li>
+                                    <li><a href="./actions/issue.php">Issue</a></li>
                                     <li><a href="team.php">Team</a></li>
                                     <li><a href="./actions/orders.php">Orders</a></li>
                             <?php } ?>
