@@ -80,10 +80,11 @@ CREATE TABLE issual (
   staff_id int NOT NULL,
   quantity int NOT NULL,
   issual_instance timestamp NOT NULL DEFAULT now(),
-  expected_return timestamp NOT NULL DEFAULT now(),
-  actual_return timestamp NOT NULL DEFAULT now(),
+  expected_return timestamp NOT NULL DEFAULT '0001-01-01 00:00:00.000000',
+  actual_return timestamp NOT NULL DEFAULT '0001-01-01 00:00:00.000000',
   return_flag boolean DEFAULT '0',
-  comment text ,
+  comment text NOT NULL,
+  foreign key (material_id) references material,
   foreign key (staff_id) references staff,
   foreign key (student_id) references student
 );
